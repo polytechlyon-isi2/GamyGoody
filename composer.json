@@ -12,6 +12,6 @@
         "symfony/validator": "2.7.*"
     },
     "autoload": {
-        "psr-4": {"MicroCMS\\": "src"}
+        "psr-4": {"GamyGoody\\": "src"}
     }
 }
