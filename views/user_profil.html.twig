@@ -1,0 +1,17 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+
+{% for flashMessage in app.session.flashbag.get('success') %}
+<div class="alert alert-success">
+    {{ flashMessage }}
+</div>
+{% endfor %}
+
+<article>
+    <p>{{ app.user.username }}</p>
+    <a href="{{ path('profil_edit') }}" class="btn btn-primary btn-default">Edit</a>
+</article>
+{% endblock %}
