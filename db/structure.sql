@@ -6,12 +6,12 @@ drop table if exists comment;
 
 create table category (
     cat_id integer not null primary key auto_increment,
-    cat_title varchar(100) not null,
+    cat_title varchar(100) not null
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 create table game (
     game_id integer not null primary key auto_increment,
-    game_title varchar(100) not null,
+    game_title varchar(100) not null
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 create table article (
