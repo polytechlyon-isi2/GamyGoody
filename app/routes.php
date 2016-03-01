@@ -17,6 +17,13 @@ $app->get('/', function () use ($app) {
     return $app['twig']->render('index.html.twig', array('articles' => $articles, 'games' => $games));
 })->bind('home');
 
+// Game page with all articles
+$app->get('/game/{id}', function ($id) use ($app) {
+    $articles = $app['dao.article']->findAllByGameId($id);
+    $game = $app['dao.game']->find($id);
+    return $app['twig']->render('game.html.twig', array('articles' => $articles, 'game' => $game));
+})->bind('game');
+
 // Article details with comments
 $app->match('/article/{id}', function ($id, Request $request) use ($app) {
     $article = $app['dao.article']->find($id);

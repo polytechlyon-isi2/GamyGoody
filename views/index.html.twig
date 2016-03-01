@@ -8,20 +8,20 @@
 	<div class="row">
 		{% for game in games %}
 			<div class="gameIconeContainer col-lg-3 col-md-4 col-sm-6 col-xs-12">
-				<a class="gameIcone" href="{{ path('article', { 'id': game.id }) }}" title="{{game.title}}" data-toggle="tooltip" data-placement="bottom">
+				<a class="gameIcone" href="{{ path('game', { 'id': game.id }) }}" title="{{game.title}}" data-toggle="tooltip" data-placement="bottom">
 					<img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png"/>
 				</a>
 			</div>
 		{% endfor %}
 	</div>
-	<div class="row">
-		{% for article in articles %}
-			<article>
-				<h2><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></h2>
-				<p>{{ article.content }}</p>
-			</article>
-		{% endfor %}
-	</div>
+	{#<div class="row">
+			{% for article in articles %}
+				<article>
+					<h2><a class="articleTitle" href="{{ path('article', { 'id': article.id }) }}">{{ article.title }}</a></h2>
+					<p>{{ article.content }}</p>
+				</article>
+			{% endfor %}
+		</div>#}
 {% endblock %}
 
 {% block script %}

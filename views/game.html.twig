@@ -1,0 +1,25 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+    {{ game.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% for article in articles %}
+            <div class="articleIconeContainer col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <a class="articleIcone" href="{{ path('article', { 'id': article.id }) }}" title="{{article.title}}" data-toggle="tooltip" data-placement="bottom">
+                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png"/>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+    </script>
+{% endblock %}

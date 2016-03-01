@@ -44,3 +44,25 @@ body {
 	width: 100%;
 
 }
+
+.articleIconeContainer
+{
+	padding: 20px;
+}
+
+.articleIcone
+{
+	display: block;
+ 	position: relative;
+    height: 0;
+    padding-bottom: 100%; 
+    /*ratio taille*/
+	background-color: #FF0000;
+	border: 4px solid black;
+}
+
+.articleIcone img
+{
+	width: 100%;
+
+}

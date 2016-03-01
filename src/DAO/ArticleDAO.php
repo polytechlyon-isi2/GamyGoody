@@ -24,6 +24,25 @@ class ArticleDAO extends DAO
         return $articles;
     }
 
+        /**
+     * Return a list of articles, sorted by date (most recent first) and game Id.
+     *
+     * @param int $id id of the game.
+     * @return array A list of articles.
+     */
+    public function findAllByGameId($id) {
+        $sql = "select * from article where game_id=? order by game_id desc";
+        $result = $this->getDb()->fetchAll($sql, array($id));
+
+        // Convert query result to an array of domain objects
+        $games = array();
+        foreach ($result as $row) {
+            $gameId = $row['game_id'];
+            $games[$gameId] = $this->buildDomainObject($row);
+        }
+        return $games;
+    }
+
     /**
      * Creates an Article object based on a DB row.
      *

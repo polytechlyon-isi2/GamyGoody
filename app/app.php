@@ -50,7 +50,7 @@ $app['dao.user'] = $app->share(function ($app) {
     return new GamyGoody\DAO\UserDAO($app['db']);
 });
 $app['dao.comment'] = $app->share(function ($app) {
-    $commentDAO = new MicroCMS\DAO\CommentDAO($app['db']);
+    $commentDAO = new GamyGoody\DAO\CommentDAO($app['db']);
     $commentDAO->setArticleDAO($app['dao.article']);
     $commentDAO->setUserDAO($app['dao.user']);
     return $commentDAO;

@@ -8,15 +8,6 @@
     <p>
         <h2>{{ article.title }}</h2>
         <p>{{ article.content }}</p>
-        <div class="container">
-          <h3>Popover Example</h3>
-          <ul class="list-inline">
-            <li><a href="#" title="Header" data-toggle="tooltip" data-placement="top" data-content="Content">Top</a></li>
-            <li><a href="#" title="Header" data-toggle="popover" data-placement="bottom" data-content="Content">Bottom</a></li>
-            <li><a href="#" title="Header" data-toggle="popover" data-placement="left" data-content="Content">Left</a></li>
-            <li><a href="#" title="Header" data-toggle="popover" data-placement="right" data-content="Content">Right</a></li>
-        </ul>
-    </div>
     <h3>Comments</h3>
     {% for comment in comments %}
         <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
