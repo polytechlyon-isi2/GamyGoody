@@ -1,6 +1,8 @@
-drop table if exists t_comment;
-drop table if exists t_user;
-drop table if exists t_article;
+drop table if exists category;
+drop table if exists game;
+drop table if exists article;
+drop table if exists user;
+drop table if exists comment;
 
 create table category (
     cat_id integer not null primary key auto_increment,
