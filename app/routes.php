@@ -1,14 +1,14 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
-use MicroCMS\Domain\Comment;
-use MicroCMS\Domain\Article;
-use MicroCMS\Domain\User;
-use MicroCMS\Form\Type\CommentType;
-use MicroCMS\Form\Type\ArticleType;
-use MicroCMS\Form\Type\UserType;
-use MicroCMS\Form\Type\UserRegisterType;
-use MicroCMS\Form\Type\UserProfilType;
+use GamyGoody\Domain\Comment;
+use GamyGoody\Domain\Article;
+use GamyGoody\Domain\User;
+use GamyGoody\Form\Type\CommentType;
+use GamyGoody\Form\Type\ArticleType;
+use GamyGoody\Form\Type\UserType;
+use GamyGoody\Form\Type\UserRegisterType;
+use GamyGoody\Form\Type\UserProfilType;
 
 // Home page
 $app->get('/', function () use ($app) {

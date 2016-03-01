@@ -27,7 +27,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             'logout' => true,
             'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
             'users' => $app->share(function () use ($app) {
-                return new MicroCMS\DAO\UserDAO($app['db']);
+                return new GamyGoody\DAO\UserDAO($app['db']);
             }),
         ),
     ),
@@ -43,10 +43,10 @@ $app->register(new Silex\Provider\TranslationServiceProvider());
 
 // Register services
 $app['dao.article'] = $app->share(function ($app) {
-    return new MicroCMS\DAO\ArticleDAO($app['db']);
+    return new GamyGoody\DAO\ArticleDAO($app['db']);
 });
 $app['dao.user'] = $app->share(function ($app) {
-    return new MicroCMS\DAO\UserDAO($app['db']);
+    return new GamyGoody\DAO\UserDAO($app['db']);
 });
 $app['dao.comment'] = $app->share(function ($app) {
     $commentDAO = new MicroCMS\DAO\CommentDAO($app['db']);
