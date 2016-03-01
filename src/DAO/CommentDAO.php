@@ -37,7 +37,7 @@ class CommentDAO extends DAO
 
         // art_id is not selected by the SQL query
         // The article won't be retrieved during domain objet construction
-        $sql = "select com_id, com_content, usr_id from t_comment where art_id=? order by com_id";
+        $sql = "select com_id, com_content, user_id from comment where art_id=? order by com_id";
         $result = $this->getDb()->fetchAll($sql, array($articleId));
 
         // Convert query result to an array of domain objects
@@ -88,10 +88,10 @@ class CommentDAO extends DAO
 
         if ($comment->getId()) {
             // The comment has already been saved : update it
-            $this->getDb()->update('t_comment', $commentData, array('com_id' => $comment->getId()));
+            $this->getDb()->update('comment', $commentData, array('com_id' => $comment->getId()));
         } else {
             // The comment has never been saved : insert it
-            $this->getDb()->insert('t_comment', $commentData);
+            $this->getDb()->insert('comment', $commentData);
             // Get the id of the newly created comment and set it on the entity.
             $id = $this->getDb()->lastInsertId();
             $comment->setId($id);
@@ -104,7 +104,7 @@ class CommentDAO extends DAO
      * @return array A list of all comments.
      */
     public function findAll() {
-        $sql = "select * from t_comment order by com_id desc";
+        $sql = "select * from comment order by com_id desc";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -122,7 +122,7 @@ class CommentDAO extends DAO
      * @param $articleId The id of the article
      */
     public function deleteAllByArticle($articleId) {
-        $this->getDb()->delete('t_comment', array('art_id' => $articleId));
+        $this->getDb()->delete('comment', array('art_id' => $articleId));
     }
 
     /**
@@ -133,7 +133,7 @@ class CommentDAO extends DAO
      * @return \MicroCMS\Domain\Comment|throws an exception if no matching comment is found
      */
     public function find($id) {
-        $sql = "select * from t_comment where com_id=?";
+        $sql = "select * from comment where com_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
         if ($row)
@@ -149,7 +149,7 @@ class CommentDAO extends DAO
      */
     public function delete($id) {
         // Delete the comment
-        $this->getDb()->delete('t_comment', array('com_id' => $id));
+        $this->getDb()->delete('comment', array('com_id' => $id));
     }
 
     /**
@@ -158,6 +158,6 @@ class CommentDAO extends DAO
      * @param integer $userId The id of the user
      */
     public function deleteAllByUser($userId) {
-        $this->getDb()->delete('t_comment', array('usr_id' => $userId));
+        $this->getDb()->delete('comment', array('usr_id' => $userId));
     }
 }

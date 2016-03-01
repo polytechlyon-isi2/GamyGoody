@@ -12,7 +12,7 @@ class ArticleDAO extends DAO
      * @return array A list of all articles.
      */
     public function findAll() {
-        $sql = "select * from t_article order by art_id desc";
+        $sql = "select * from article order by art_id desc";
         $result = $this->getDb()->fetchAll($sql);
 
         // Convert query result to an array of domain objects
@@ -39,7 +39,7 @@ class ArticleDAO extends DAO
     }
 
     public function find($id) {
-        $sql = "select * from t_article where art_id=?";
+        $sql = "select * from article where art_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
         if ($row)
@@ -61,10 +61,10 @@ class ArticleDAO extends DAO
 
         if ($article->getId()) {
             // The article has already been saved : update it
-            $this->getDb()->update('t_article', $articleData, array('art_id' => $article->getId()));
+            $this->getDb()->update('article', $articleData, array('art_id' => $article->getId()));
         } else {
             // The article has never been saved : insert it
-            $this->getDb()->insert('t_article', $articleData);
+            $this->getDb()->insert('article', $articleData);
             // Get the id of the newly created article and set it on the entity.
             $id = $this->getDb()->lastInsertId();
             $article->setId($id);
@@ -78,6 +78,6 @@ class ArticleDAO extends DAO
      */
     public function delete($id) {
         // Delete the article
-        $this->getDb()->delete('t_article', array('art_id' => $id));
+        $this->getDb()->delete('article', array('art_id' => $id));
     }
 }
