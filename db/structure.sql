@@ -2,25 +2,39 @@ drop table if exists t_comment;
 drop table if exists t_user;
 drop table if exists t_article;
 
-create table t_article (
+create table category (
+    cat_id integer not null primary key auto_increment,
+    cat_title varchar(100) not null,
+) engine=innodb character set utf8 collate utf8_unicode_ci;
+
+create table game (
+    game_id integer not null primary key auto_increment,
+    game_title varchar(100) not null,
+) engine=innodb character set utf8 collate utf8_unicode_ci;
+
+create table article (
     art_id integer not null primary key auto_increment,
     art_title varchar(100) not null,
-    art_content varchar(2000) not null
+    art_content varchar(2000) not null,
+    cat_id integer not null,
+    game_id integer not null,
+    constraint fk_art_cat foreign key(cat_id) references category(cat_id),
+    constraint fk_art_game foreign key(game_id) references game(game_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
-create table t_user (
-    usr_id integer not null primary key auto_increment,
-    usr_name varchar(50) not null,
-    usr_password varchar(88) not null,
-    usr_salt varchar(23) not null,
-    usr_role varchar(50) not null 
+create table user (
+    user_id integer not null primary key auto_increment,
+    user_name varchar(50) not null,
+    user_password varchar(88) not null,
+    user_salt varchar(23) not null,
+    user_role varchar(50) not null 
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
-create table t_comment (
+create table comment (
     com_id integer not null primary key auto_increment,
     com_content varchar(500) not null,
     art_id integer not null,
-    usr_id integer not null,
-    constraint fk_com_art foreign key(art_id) references t_article(art_id),
-    constraint fk_com_usr foreign key(usr_id) references t_user(usr_id)
+    user_id integer not null,
+    constraint fk_com_art foreign key(art_id) references article(art_id),
+    constraint fk_com_usr foreign key(user_id) references user(user_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
