@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroCMS\DAO;
+namespace GamyGoody\DAO;
 
-use MicroCMS\Domain\Comment;
+use GamyGoody\Domain\Comment;
 
 class CommentDAO extends DAO 
 {

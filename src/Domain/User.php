@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroCMS\Domain;
+namespace GamyGoody\Domain;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 

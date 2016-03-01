@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroCMS\DAO;
+namespace GamyGoody\DAO;
 
 use Doctrine\DBAL\Connection;
 

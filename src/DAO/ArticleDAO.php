@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroCMS\DAO;
+namespace GamyGoody\DAO;
 
-use MicroCMS\Domain\Article;
+use GamyGoody\Domain\Article;
 
 class ArticleDAO extends DAO
 {
