@@ -28,7 +28,7 @@ class GameDAO extends DAO
      * Creates an game object based on a DB row.
      *
      * @param array $row The DB row containing game data.
-     * @return \MicroCMS\Domain\game
+     * @return \GamyGoody\Domain\game
      */
     protected function buildDomainObject($row) {
         $game = new Game();
@@ -50,7 +50,7 @@ class GameDAO extends DAO
     /**
      * Saves an game into the database.
      *
-     * @param \MicroCMS\Domain\game $game The game to save
+     * @param \GamyGoody\Domain\game $game The game to save
      */
     public function save(game $game) {
         $gameData = array(
