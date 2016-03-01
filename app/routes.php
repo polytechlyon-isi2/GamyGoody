@@ -13,7 +13,8 @@ use GamyGoody\Form\Type\UserProfilType;
 // Home page
 $app->get('/', function () use ($app) {
     $articles = $app['dao.article']->findAll();
-    return $app['twig']->render('index.html.twig', array('articles' => $articles));
+    $games = $app['dao.game']->findAll();
+    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'games' => $games));
 })->bind('home');
 
 // Article details with comments

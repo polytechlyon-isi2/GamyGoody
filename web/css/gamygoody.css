@@ -1,0 +1,46 @@
+body { 
+    padding-top: 50px; 
+    /*background-color: red;*/
+}
+
+.footer {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.articleTitle:hover, .articleTitle:focus {
+    text-decoration: none;
+}
+
+.adminTable {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+[class*="col-"] {
+	background-color: #1EFF00;
+	border: 4px solid black;
+}
+
+.gameIconeContainer
+{
+	padding: 20px;
+}
+
+.gameIcone
+{
+	display: block;
+ 	position: relative;
+    height: 0;
+    padding-bottom: 66%; 
+    /*ratio taille*/
+	background-color: #FF0000;
+	border: 4px solid black;
+}
+
+.gameIcone img
+{
+	width: 100%;
+
+}
