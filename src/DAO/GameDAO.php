@@ -11,6 +11,7 @@ class GameDAO extends DAO
      *
      * @return array A list of all games.
      */
+    
     public function findAll() {
         $sql = "select * from game order by game_id desc";
         $result = $this->getDb()->fetchAll($sql);
@@ -18,7 +19,7 @@ class GameDAO extends DAO
         // Convert query result to an array of domain objects
         $games = array();
         foreach ($result as $row) {
-            $gameId = $row['game_id'];
+            $gameId         = $row['game_id'];
             $games[$gameId] = $this->buildDomainObject($row);
         }
         return $games;
@@ -30,6 +31,12 @@ class GameDAO extends DAO
      * @param array $row The DB row containing game data.
      * @return \GamyGoody\Domain\game
      */
+    
+    /**
+     * [buildDomainObject description]
+     * @param  [type] $row [description]
+     * @return [type]      [description]
+     */
     protected function buildDomainObject($row) {
         $game = new Game();
         $game->setId($row['game_id']);
@@ -37,6 +44,11 @@ class GameDAO extends DAO
         return $game;
     }
 
+    /**
+     * [find description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function find($id) {
         $sql = "select * from game where game_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));

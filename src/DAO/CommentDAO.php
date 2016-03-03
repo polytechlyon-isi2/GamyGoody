@@ -69,9 +69,9 @@ class CommentDAO extends DAO
             $article = $this->articleDAO->find($articleId);
             $comment->setArticle($article);
         }
-        if (array_key_exists('usr_id', $row)) {
+        if (array_key_exists('user_id', $row)) {
             // Find and set the associated author
-            $userId = $row['usr_id'];
+            $userId = $row['user_id'];
             $user = $this->userDAO->find($userId);
             $comment->setAuthor($user);
         }
@@ -82,7 +82,7 @@ class CommentDAO extends DAO
     public function save(Comment $comment) {
         $commentData = array(
             'art_id' => $comment->getArticle()->getId(),
-            'usr_id' => $comment->getAuthor()->getId(),
+            'user_id' => $comment->getAuthor()->getId(),
             'com_content' => $comment->getContent()
             );
 
@@ -158,6 +158,6 @@ class CommentDAO extends DAO
      * @param integer $userId The id of the user
      */
     public function deleteAllByUser($userId) {
-        $this->getDb()->delete('comment', array('usr_id' => $userId));
+        $this->getDb()->delete('comment', array('user_id' => $userId));
     }
 }

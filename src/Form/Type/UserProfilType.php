@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroCMS\Form\Type;
+namespace GamyGoody\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,18 +9,16 @@ class UserProfilType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('password', 'repeated', array(
-                'type'            => 'password',
-                'invalid_message' => 'The password fields must match.',
-                'options'         => array('required' => true),
-                'first_options'   => array('label' => 'Password'),
-                'second_options'  => array('label' => 'Repeat password'),
-            ));
+        $builder->remove('username');
     }
 
     public function getName()
     {
-        return 'user';
+        return 'user_profil';
+    }
+
+    public function getParent()
+    {
+        return new UserRegisterType();
     }
 }

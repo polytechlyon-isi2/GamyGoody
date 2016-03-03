@@ -60,9 +60,9 @@ $app->get('/login', function(Request $request) use ($app) {
 // Register form
 $app->match('/register', function(Request $request) use ($app) {
     $user = new User();
-    $userForm = $app['form.factory']->create(new UserRegisterType(), $user);
+    $userForm = $app['form.factory']->create(new UserRegisterType(), $user, array('app' => $app));
     $userForm->handleRequest($request);
-    if ($userForm->isSubmitted() && $userForm->isValid()) {
+    if ($userForm->isSubmitted() && $userForm->isValid() && $user) {
         // generate a random salt value
         $salt = substr(md5(time()), 0, 23);
         $user->setSalt($salt);
