@@ -26,6 +26,22 @@ class GameDAO extends DAO
     }
 
     /**
+     * [isGameExistant : return true if this game id exists]
+     * @param  [int]  $id [id of the wanted game]
+     * @return boolean           [exists ?]
+     */
+    public function isGameExistant($id) 
+    {
+        $sql = "select * from game where game_id=? limit 1";
+        $row = $this->getDb()->fetchAssoc($sql, array($id));
+
+        if ($row)
+            return true;
+        else
+            return false;
+    }
+
+    /**
      * Creates an game object based on a DB row.
      *
      * @param array $row The DB row containing game data.

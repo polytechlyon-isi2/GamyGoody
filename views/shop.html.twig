@@ -1,19 +1,23 @@
 {% extends "layout.html.twig" %}
 
 {% block title %}
-    {{ game.title }}
+    {{ "Titre" }}
 {% endblock %}
 
 {% block content %}
+    {% if game %}
+        <div class="row brand-bar">
+            
+        </div>
+    {% endif %}
     <div class="row">
         {% for article in articles %}
-            <div class="responsive-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                <div class="ratio-1-1"></div>
-                <a class="img-container" href="{{ path('article', { 'id': article.id }) }}" title="{{article.title}}" data-toggle="tooltip" data-placement="bottom">
-                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}"/>
+            <div class="articleIconeContainer col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <a class="articleIcone" href="{{ path('article', { 'id': article.id }) }}" title="{{article.title}}" data-toggle="tooltip" data-placement="bottom">
+                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png"/>
                 </a>
             </div>
-        {% else %}
+            {% else %}
             <div class="gameIconeContainer col-lg-12 text-center">
                 Aucun article pour ce jeu.
             </div>

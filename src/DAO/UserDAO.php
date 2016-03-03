@@ -45,7 +45,7 @@ class UserDAO extends DAO implements UserProviderInterface
 
     public function isUsernameUsed($username) 
     {
-        $sql = "select * from user where user_name=?";
+        $sql = "select * from user where user_name=? limit 1";
         $row = $this->getDb()->fetchAssoc($sql, array($username));
 
         if ($row)

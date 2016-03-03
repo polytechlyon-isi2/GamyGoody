@@ -19,10 +19,25 @@ $app->get('/', function () use ($app) {
 
 // Game page with all articles
 $app->get('/game/{id}', function ($id) use ($app) {
-    $articles = $app['dao.article']->findAllByGameId($id);
+        $articles = $app['dao.article']->findAllByGameId($id);
     $game = $app['dao.game']->find($id);
     return $app['twig']->render('game.html.twig', array('articles' => $articles, 'game' => $game));
 })->bind('game');
+
+// Shop page with all articles filtered by game, category, 
+$app->get('/shop/{game_id}', function ($game_id) use ($app) {
+    if($app['dao.game']->isGameExistant($game_id))
+    {
+        $game = $app['dao.game']->find($game_id);
+        $articles = $app['dao.article']->findAllByGameId($game_id);
+        return $app['twig']->render('game.html.twig', array('articles' => $articles, 'game' => $game));
+    }
+    else
+    {
+        $articles = $app['dao.article']->findAll();
+        return $app['twig']->render('game.html.twig', array('articles' => $articles));
+    }
+})->bind('shop');
 
 // Article details with comments
 $app->match('/article/{id}', function ($id, Request $request) use ($app) {
@@ -107,14 +122,17 @@ $app->match('/profil/edit', function (Request $request) use ($app) {
         'userForm' => $userForm->createView()));
 })->bind('profil_edit');
 
+
 // Admin home page
 $app->get('/admin', function() use ($app) {
     $articles = $app['dao.article']->findAll();
     $comments = $app['dao.comment']->findAll();
     $users = $app['dao.user']->findAll();
+    $games = $app['dao.game']->findAll();
     return $app['twig']->render('admin.html.twig', array(
         'articles' => $articles,
         'comments' => $comments,
+        'games' => $games,
         'users'    => $users));
 })->bind('admin');
 
