@@ -4,17 +4,45 @@
     {{ "Titre" }}
 {% endblock %}
 
-{% block content %}
+{% block header%}
     {% if game %}
-        <div class="row brand-bar">
-            
+        <div class="row brand-header">
+            <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png"/>
         </div>
     {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="well filter"> 
+        <div class="title">
+            Filter by: 
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{% if game %}{{ game.title}}{% else %}Games{% endif %} <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                 <li><a href="{{ path('shop') }}">All</a></li>
+                 {% for game in games %}
+                    <li><a href="{{ path('shop', { 'game_id': game.id }) }}">{{game.title}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                 <li><a href="{{ path('shop') }}">All</a></li>
+                 {% for category in categories %}
+                    <li><a href="">{{category.title}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     <div class="row">
         {% for article in articles %}
-            <div class="articleIconeContainer col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                <a class="articleIcone" href="{{ path('article', { 'id': article.id }) }}" title="{{article.title}}" data-toggle="tooltip" data-placement="bottom">
-                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png"/>
+            <div class="responsive-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="ratio-1-1"></div>
+                <a class="img-container" href="{{ path('article', { 'id': article.id }) }}" title="{{article.title}}" data-toggle="tooltip" data-placement="bottom">
+                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}"/>
                 </a>
             </div>
             {% else %}

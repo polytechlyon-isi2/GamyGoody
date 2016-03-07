@@ -58,3 +58,6 @@ $app['dao.comment'] = $app->share(function ($app) {
 $app['dao.game'] = $app->share(function ($app) {
     return new GamyGoody\DAO\GameDAO($app['db']);
 });
+$app['dao.category'] = $app->share(function ($app) {
+    return new GamyGoody\DAO\CategoryDAO($app['db']);
+});

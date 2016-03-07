@@ -19,25 +19,29 @@ $app->get('/', function () use ($app) {
 
 // Game page with all articles
 $app->get('/game/{id}', function ($id) use ($app) {
-        $articles = $app['dao.article']->findAllByGameId($id);
+    $articles = $app['dao.article']->findAllByGameId($id);
     $game = $app['dao.game']->find($id);
     return $app['twig']->render('game.html.twig', array('articles' => $articles, 'game' => $game));
 })->bind('game');
 
 // Shop page with all articles filtered by game, category, 
-$app->get('/shop/{game_id}', function ($game_id) use ($app) {
+$app->get('/shop/{game_id}/{category_id}', function ($game_id, $category_id) use ($app) 
+{
+    $games = $app['dao.game']->findAll();
+    $categories = $app['dao.category']->findAll();
     if($app['dao.game']->isGameExistant($game_id))
     {
         $game = $app['dao.game']->find($game_id);
         $articles = $app['dao.article']->findAllByGameId($game_id);
-        return $app['twig']->render('game.html.twig', array('articles' => $articles, 'game' => $game));
     }
     else
     {
+        $game = false;
         $articles = $app['dao.article']->findAll();
-        return $app['twig']->render('game.html.twig', array('articles' => $articles));
+        
     }
-})->bind('shop');
+    return $app['twig']->render('shop.html.twig', array('games' => $games, 'categories' => $categories, 'articles' => $articles, 'game' => $game));
+})->value('game_id', '')->value('category_id', '')->bind('shop');
 
 // Article details with comments
 $app->match('/article/{id}', function ($id, Request $request) use ($app) {
@@ -69,7 +73,7 @@ $app->get('/login', function(Request $request) use ($app) {
     return $app['twig']->render('login.html.twig', array(
         'error'         => $app['security.last_error']($request),
         'last_username' => $app['session']->get('_security.last_username'),
-    ));
+        ));
 })->bind('login');
 
 // Register form

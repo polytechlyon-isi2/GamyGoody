@@ -10,34 +10,77 @@
         <p>{{ article.content }}</p>
         {% set var = {'path_delete' : 'admin_comment_edit', 'path_edit' : 'admin_comment_delete', 'data_id' : article.id} %}
         {% include 'edit_delete.html.twig' with {'var' : var} %}
-    <h3>Comments</h3>
-    {% for comment in comments %}
-        <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
-        {% else %}
-        No comments yet.
-    {% endfor %}
-    {% if commentForm %}
-        {{ form_start(commentForm) }}
-        <div class="form-group">
-            {{ form_errors(commentForm.content) }}
-            {{ form_widget(commentForm.content, { 'attr':  {
-            'rows': '4',
-            'class': 'form-control',
-            'placeholder': 'Enter your comment'}}) }}
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Publish comment" />
-        </div>
-        {{ form_end(commentForm) }}
-        {% for flashMessage in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">
-                {{ flashMessage }}
-            </div>
+
+        <h3>Comments</h3>
+        {% for comment in comments %}
+            <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
+            {% else %}
+            No comments yet.
         {% endfor %}
-        {% else %}
-        <a href="{{ path('login') }} ">Log in</a> to add comments.
-    {% endif %}
-</p>
+        {% if commentForm %}
+            {{ form_start(commentForm) }}
+            <div class="form-group">
+                {{ form_errors(commentForm.content) }}
+                {{ form_widget(commentForm.content, { 'attr':  {
+                'rows': '4',
+                'class': 'form-control',
+                'placeholder': 'Enter your comment'}}) }}
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Publish comment" />
+            </div>
+            {{ form_end(commentForm) }}
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% else %}
+            <a href="{{ path('login') }} ">Log in</a> to add comments.
+        {% endif %}
+    </p>
+
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#desc" data-toggle="tab">Description</a></li>
+                <li><a href="#comments" data-toggle="tab">Comments</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="desc">
+            
+        </div>
+        <div class="tab-pane fade" id="comments">
+            {% for comment in comments %}
+                <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
+                {% else %}
+                No comments yet.
+            {% endfor %}
+            {% if commentForm %}
+                {{ form_start(commentForm) }}
+                <div class="form-group">
+                    {{ form_errors(commentForm.content) }}
+                    {{ form_widget(commentForm.content, { 'attr':  {
+                    'rows': '4',
+                    'class': 'form-control',
+                    'placeholder': 'Enter your comment'}}) }}
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Publish comment" />
+                </div>
+                {{ form_end(commentForm) }}
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                {% else %}
+                <a href="{{ path('login') }} ">Log in</a> to add comments.
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}

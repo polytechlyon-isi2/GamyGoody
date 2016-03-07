@@ -70,3 +70,37 @@ body {
 {
     position: relative;
 }
+
+.brand-header
+{
+    text-align:center; 
+    background-image: url('http://euw.leagueoflegends.com/sites/default/files/upload/art/akali_vs_baron_4.jpg');
+    background-position: center;
+    background-size: 100%;
+    padding: 20px;
+    height: 180px;
+    max-height: 30vw;
+}
+
+.brand-header img {
+    vertical-align: middle;
+    display: inline-block;
+    height:100%;
+}
+
+.filter
+{
+    margin-top: 20px;
+}
+
+.filter div
+{
+    display: inline-block;
+    margin: 5px;
+}
+
+.title
+{
+    font-weight: bold;
+    font-size: 1.2em;
+}
