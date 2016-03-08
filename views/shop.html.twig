@@ -38,11 +38,13 @@
         </div>
     </div>
     <div class="row">
+        <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
         {% for article in articles %}
             <div class="responsive-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
                 <div class="ratio-1-1"></div>
                 <a class="img-container" href="{{ path('article', { 'id': article.id }) }}" title="{{article.title}}" data-toggle="tooltip" data-placement="bottom">
-                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}">
+                    <div class="img-info" data-toggle="popover"><h1>Click for more infos</h1></div>
                 </a>
             </div>
             {% else %}
@@ -57,6 +59,7 @@
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();   
+            $('[data-toggle="popover"]').popover();  
         });
     </script>
 {% endblock %}
