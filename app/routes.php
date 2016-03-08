@@ -14,9 +14,8 @@ use GamyGoody\Form\Type\UserProfilType;
 
 // Home page
 $app->get('/', function () use ($app) {
-    $articles = $app['dao.article']->findAll();
     $games = $app['dao.game']->findAll();
-    return $app['twig']->render('index.html.twig', array('articles' => $articles, 'games' => $games));
+    return $app['twig']->render('index.html.twig', array('games' => $games));
 })->bind('home');
 
 // Shop page with all articles filtered by game, category, 

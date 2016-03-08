@@ -4,10 +4,20 @@
     {{ "Titre" }}
 {% endblock %}
 
+
+{% block style %}
+    {% if game %}
+        .brand-header
+        {
+            background-image: url('{{ game.background_dir }}')
+        }
+    {% endif %}
+{% endblock %}
+
 {% block header%}
     {% if game %}
         <div class="row brand-header">
-            <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png"/>
+            <img src="{{ app.request.basepath ~ game.logo_dir }}"/>
         </div>
     {% endif %}
 {% endblock %}

@@ -4,13 +4,22 @@
 	Home
 {% endblock %}
 
+{% block style %}
+	{% for game in games %}
+		.background-game-{{ game.id }} 
+		{
+			background-image: url('{{ app.request.basepath ~ game.background_dir }}')
+		}
+	{% endfor %}
+{% endblock %}
+
 {% block content %}
 	<div class="row">
 		{% for game in games %}
 			<div class="responsive-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
 				<div class="ratio-16-9"></div>
-				<a class="img-container" href="{{ path('shop', { 'game_id': game.id }) }}" title="{{game.title}}" data-toggle="tooltip" data-placement="bottom">
-					<img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{game.title}}"/>
+				<a class="img-container background-game-{{ game.id }}" href="{{ path('shop', { 'game_id': game.id }) }}" title="{{game.title}}" data-toggle="tooltip" data-placement="bottom">
+					<img src="{{app.request.basepath ~ game.logo_dir}}" alt="{{game.title}}"/>
 				</a>
 			</div>
 		{% endfor %}

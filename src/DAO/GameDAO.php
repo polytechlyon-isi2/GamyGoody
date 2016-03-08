@@ -70,6 +70,8 @@ class GameDAO extends DAO
         $game = new Game();
         $game->setId($row['game_id']);
         $game->setTitle($row['game_title']);
+        $game->setLogoByEx($row['game_logo_ex']);
+        $game->setBackgroundByEx($row['game_bg_ex']);
         return $game;
     }
 
@@ -93,10 +95,30 @@ class GameDAO extends DAO
      *
      * @param \GamyGoody\Domain\game $game The game to save
      */
-    public function save(game $game) {
-        $gameData = array(
+    public function save(game $game) 
+    {
+
+        $logo = $game->getLogo();
+        $bg = $game->getBackground();
+
+        if($logo->isValid() && $bg->isValid())
+        {
+            $logo_ex = $logo->guessExtension();
+            $bg_ex = $bg->guessExtension();
+
+            $gameData = array(
+            'game_title' => $game->getTitle(),
+            'game_logo_ex' => $logo_ex,
+            'game_bg_ex' => $bg_ex
+            );
+        }
+        else
+        {
+            $gameData = array(
             'game_title' => $game->getTitle()
             );
+        }
+
 
         if ($game->getId()) {
             // The game has already been saved : update it
@@ -108,6 +130,16 @@ class GameDAO extends DAO
             $id = $this->getDb()->lastInsertId();
             $game->setId($id);
         }
+
+        $logo_name = 'logo_'.$game->getId().'.'.$logo_ex;
+        $bg_name = 'bg_'.$game->getId().'.'.$bg_ex;
+        $dir = $this->getAbsDir();
+
+        $logo->move($dir, $logo_name);
+        $bg->move($dir, $bg_name);
+
+        $game->setLogo($this->getDir().$logo_name);
+        $game->setBackground($this->getDir().$bg_name);
     }
 
     /**
@@ -118,5 +150,15 @@ class GameDAO extends DAO
     public function delete($id) {
         // Delete the game
         $this->getDb()->delete('game', array('game_id' => $id));
+    }
+
+    private function getAbsDir()
+    {
+        return __DIR__.'/../..'.$this->getDir();
+    }
+
+    private function getDir()
+    {
+        return '/web/images/games';
     }
 }
