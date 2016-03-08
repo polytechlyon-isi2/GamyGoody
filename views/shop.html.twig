@@ -38,7 +38,6 @@
         </div>
     </div>
     <div class="row">
-        <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
         {% for article in articles %}
             <div class="responsive-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
                 <div class="ratio-1-1"></div>
@@ -58,8 +57,7 @@
 {% block script %}
     <script>
         $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();   
-            $('[data-toggle="popover"]').popover();  
+            $('[data-toggle="tooltip"]').tooltip();  
         });
     </script>
 {% endblock %}
