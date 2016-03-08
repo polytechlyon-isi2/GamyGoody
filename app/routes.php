@@ -102,7 +102,7 @@ $app->get('/profil', function () use ($app) {
 // Edit profil
 $app->match('/profil/edit', function (Request $request) use ($app) {
     $user = $app['user'];
-    $userForm = $app['form.factory']->create(new UserProfilType(), $user); 
+    $userForm = $app['form.factory']->create(new UserProfilType(), $user, array('app' => $app)); 
     $userForm->handleRequest($request);
     if ($userForm->isSubmitted() && $userForm->isValid()) {
         $plainPassword = $user->getPassword();
@@ -123,6 +123,7 @@ $app->match('/profil/edit', function (Request $request) use ($app) {
 // Admin home page
 $app->get('/admin', function() use ($app) {
     $articles = $app['dao.article']->findAll();
+    $categories = $app['dao.category']->findAll();
     $comments = $app['dao.comment']->findAll();
     $users = $app['dao.user']->findAll();
     $games = $app['dao.game']->findAll();
@@ -130,7 +131,8 @@ $app->get('/admin', function() use ($app) {
         'articles' => $articles,
         'comments' => $comments,
         'games' => $games,
-        'users'    => $users));
+        'users'    => $users,
+        'categories' => $categories));
 })->bind('admin');
 
 // Add a new article
@@ -197,7 +199,7 @@ $app->get('/admin/comment/{id}/delete', function($id, Request $request) use ($ap
 // Add a user
 $app->match('/admin/user/add', function(Request $request) use ($app) {
     $user = new User();
-    $userForm = $app['form.factory']->create(new UserType(), $user);
+    $userForm = $app['form.factory']->create(new UserType(), $user, array('app' => $app));
     $userForm->handleRequest($request);
     if ($userForm->isSubmitted() && $userForm->isValid()) {
         // generate a random salt value
@@ -220,7 +222,7 @@ $app->match('/admin/user/add', function(Request $request) use ($app) {
 // Edit an existing user
 $app->match('/admin/user/{id}/edit', function($id, Request $request) use ($app) {
     $user = $app['dao.user']->find($id);
-    $userForm = $app['form.factory']->create(new UserType(), $user);
+    $userForm = $app['form.factory']->create(new UserType(), $user, array('app' => $app));
     $userForm->handleRequest($request);
     if ($userForm->isSubmitted() && $userForm->isValid()) {
         $plainPassword = $user->getPassword();
