@@ -24,6 +24,19 @@ class GameDAO extends DAO
         }
         return $games;
     }
+    
+    public function findAllTitles() {
+        $sql = "select * from game order by game_id desc";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $games = array();
+        foreach ($result as $row) {
+            $gameId         = $row['game_id'];
+            $games[$gameId] = $row['game_title'];
+        }
+        return $games;
+    }
 
     /**
      * [isGameExistant : return true if this game id exists]

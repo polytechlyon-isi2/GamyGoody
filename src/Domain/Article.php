@@ -17,6 +17,7 @@ class Article
      * @var string
      */
     private $title;
+    private $gameid;
 
     /**
      * Article content.
@@ -47,5 +48,13 @@ class Article
 
     public function setContent($content) {
         $this->content = $content;
+    }
+    
+    public function getGame(){
+        return $this->gameid;
+    }
+    
+    public function setGame($id){
+        $this->gameid = $id;
     }
 }

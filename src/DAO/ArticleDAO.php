@@ -99,4 +99,8 @@ class ArticleDAO extends DAO
         // Delete the article
         $this->getDb()->delete('article', array('art_id' => $id));
     }
+    
+     public function deleteAllByGame($id) {
+        $this->getDb()->delete('article', array('game_id' => $id));
+    }
 }

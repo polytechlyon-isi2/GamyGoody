@@ -4,8 +4,10 @@ use Symfony\Component\HttpFoundation\Request;
 use GamyGoody\Domain\Comment;
 use GamyGoody\Domain\Article;
 use GamyGoody\Domain\User;
+use  GamyGoody\Domain\Game;
 use GamyGoody\Form\Type\CommentType;
 use GamyGoody\Form\Type\ArticleType;
+use  GamyGoody\Form\Type\GameType;
 use GamyGoody\Form\Type\UserType;
 use GamyGoody\Form\Type\UserRegisterType;
 use GamyGoody\Form\Type\UserProfilType;
@@ -138,7 +140,8 @@ $app->get('/admin', function() use ($app) {
 // Add a new article
 $app->match('/admin/article/add', function(Request $request) use ($app) {
     $article = new Article();
-    $articleForm = $app['form.factory']->create(new ArticleType(), $article);
+    $games = $app['dao.game'] ->findAllTitles();
+    $articleForm = $app['form.factory']->create(new ArticleType(), $article, array('games' => $games));
     $articleForm->handleRequest($request);
     if ($articleForm->isSubmitted() && $articleForm->isValid()) {
         $app['dao.article']->save($article);
@@ -249,3 +252,42 @@ $app->get('/admin/user/{id}/delete', function($id, Request $request) use ($app) 
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_user_delete');
+
+// Add a new game
+$app->match('/admin/game/add', function(Request $request) use ($app) {
+    $game = new Game();
+    $gameForm = $app['form.factory']->create(new GameType(), $game);
+    $gameForm->handleRequest($request);
+    if ($gameForm->isSubmitted() && $gameForm->isValid()) {
+        $app['dao.game']->save($game);
+        $app['session']->getFlashBag()->add('success', 'The game was successfully created.');
+    }
+    return $app['twig']->render('game_form.html.twig', array(
+        'title'       => 'New game',
+        'gameForm' => $gameForm->createView()));
+})->bind('admin_game_add');
+
+// Edit an existing game
+$app->match('/admin/game/{id}/edit', function($id, Request $request) use ($app) {
+    $game = $app['dao.game']->find($id);
+    $gameForm = $app['form.factory']->create(new GameType(), $game);
+    $gameForm->handleRequest($request);
+    if ($gameForm->isSubmitted() && $gameForm->isValid()) {
+        $app['dao.game']->save($game);
+        $app['session']->getFlashBag()->add('success', 'The game was succesfully updated.');
+    }
+    return $app['twig']->render('game_form.html.twig', array(
+        'title' => 'Edit game',
+        'gameForm' => $gameForm->createView()));
+})->bind('admin_game_edit');
+
+// Remove an article
+$app->get('/admin/game/{id}/delete', function($id, Request $request) use ($app) {
+    // Delete all associated comments
+    $app['dao.article']->deleteAllByGame($id);
+    // Delete the article
+    $app['dao.game']->delete($id);
+    $app['session']->getFlashBag()->add('success', 'The article was succesfully removed.');
+    // Redirect to admin home page
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_game_delete');

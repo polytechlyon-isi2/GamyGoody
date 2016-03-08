@@ -4,6 +4,7 @@ namespace GamyGoody\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ArticleType extends AbstractType
 {
@@ -11,11 +12,18 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title', 'text')
-            ->add('content', 'textarea');
+            ->add('content', 'textarea')
+            ->add('game', 'choice', array(
+            'choices' => $options['games']));
     }
 
     public function getName()
     {
         return 'article';
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setRequired(array("games"));
     }
 }
