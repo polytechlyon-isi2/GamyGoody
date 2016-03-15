@@ -11,7 +11,9 @@ create table category (
 
 create table game (
     game_id integer not null primary key auto_increment,
-    game_title varchar(100) not null
+    game_title varchar(100) not null,
+    game_logo_ex varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+    game_bg_ex varchar(5) COLLATE utf8_unicode_ci NOT NULL
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 create table article (

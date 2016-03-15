@@ -9,7 +9,7 @@
     {% if game %}
         .brand-header
         {
-            background-image: url('{{ game.background_dir }}')
+            background-image: url('{{ app.request.basepath ~ game.background_dir }}')
         }
     {% endif %}
 {% endblock %}
