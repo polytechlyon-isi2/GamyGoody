@@ -78,4 +78,17 @@ class CategoryDAO extends DAO
         // Delete the category
         $this->getDb()->delete('category', array('category_id' => $id));
     }
+    
+    public function findAllTitles() {
+        $sql = "select * from category order by cat_id desc";
+        $result = $this->getDb()->fetchAll($sql);
+
+        // Convert query result to an array of domain objects
+        $category = array();
+        foreach ($result as $row) {
+            $catId         = $row['cat_id'];
+            $category[$catId] = $row['cat_title'];
+        }
+        return $category;
+    }
 }

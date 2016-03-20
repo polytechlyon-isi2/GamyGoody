@@ -6,6 +6,11 @@ use GamyGoody\Domain\Article;
 
 class ArticleDAO extends DAO
 {
+    private $imageDAO;
+    
+    public function setImageDAO($imageDAO){
+        $this->imageDAO = $imageDAO;
+    }
     /**
      * Return a list of all articles, sorted by date (most recent first).
      *
@@ -54,6 +59,9 @@ class ArticleDAO extends DAO
         $article->setId($row['art_id']);
         $article->setTitle($row['art_title']);
         $article->setContent($row['art_content']);
+        $article->setCategory($row['cat_id']);
+        $article->setGame($row['game_id']);
+        $article->setImage($imageDAO -> buildDomainObject($row));
         return $article;
     }
 
@@ -73,9 +81,12 @@ class ArticleDAO extends DAO
      * @param \MicroCMS\Domain\Article $article The article to save
      */
     public function save(Article $article) {
+        $imageDAO -> save($article -> getImage());
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
+            'cat_id' => $article -> getCategory(),
+            'game_id' => $article -> getGame(),
             );
 
         if ($article->getId()) {

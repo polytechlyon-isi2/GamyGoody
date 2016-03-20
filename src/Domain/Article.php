@@ -18,6 +18,8 @@ class Article
      */
     private $title;
     private $gameid;
+    private $catid;
+    private $image;
 
     /**
      * Article content.
@@ -56,5 +58,21 @@ class Article
     
     public function setGame($id){
         $this->gameid = $id;
+    }
+    
+       public function getCategory(){
+        return $this->catid;
+    }
+    
+    public function setCategory($id){
+        $this->catid = $id;
+    }
+    
+    public function getImage(){
+        return $this->image;
+    }
+    
+    public function setImage($id){
+        $this->image = $id;
     }
 }

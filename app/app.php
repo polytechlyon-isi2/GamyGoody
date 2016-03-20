@@ -41,10 +41,14 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 ));
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
-
+$app['dao.image'] = $app->share(function ($app) {
+    return new GamyGoody\DAO\ImageDAO($app['db']);
+});
 // Register services
 $app['dao.article'] = $app->share(function ($app) {
-    return new GamyGoody\DAO\ArticleDAO($app['db']);
+    $articleDAO = new GamyGoody\DAO\ArticleDAO($app['db']);
+    $articleDAO -> setImageDAO($app['dao.image']);
+    return $articleDAO;
 });
 $app['dao.user'] = $app->share(function ($app) {
     return new GamyGoody\DAO\UserDAO($app['db']);

@@ -3,6 +3,8 @@ drop table if exists game;
 drop table if exists article;
 drop table if exists user;
 drop table if exists comment;
+drop table if exists image;
+
 
 create table category (
     cat_id integer not null primary key auto_increment,
@@ -11,7 +13,9 @@ create table category (
 
 create table game (
     game_id integer not null primary key auto_increment,
-    game_title varchar(100) not null
+    game_title varchar(100) not null,
+    game_logo_ex varchar(5) not null,
+    game_bg_ex varchar(5) not null
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 create table article (
@@ -20,8 +24,10 @@ create table article (
     art_content varchar(2000) not null,
     cat_id integer not null,
     game_id integer not null,
+    img_id integer not null,
     constraint fk_art_cat foreign key(cat_id) references category(cat_id),
-    constraint fk_art_game foreign key(game_id) references game(game_id)
+    constraint fk_art_game foreign key(game_id) references game(game_id),
+    constraint fk_art_img foreign key(img_id) references image(img_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 create table user (
@@ -40,3 +46,10 @@ create table comment (
     constraint fk_com_art foreign key(art_id) references article(art_id),
     constraint fk_com_usr foreign key(user_id) references user(user_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
+
+create table image (
+    img_id integer not null primary key auto_increment,
+    img_url varchar(500) not null,
+    img_alt varchar(500) not null,
+    
+) 

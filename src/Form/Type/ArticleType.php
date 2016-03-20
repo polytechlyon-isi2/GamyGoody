@@ -14,7 +14,10 @@ class ArticleType extends AbstractType
             ->add('title', 'text')
             ->add('content', 'textarea')
             ->add('game', 'choice', array(
-            'choices' => $options['games']));
+            'choices' => $options['games']))
+            ->add('category', 'choice', array(
+            'choices' => $options['categories']))
+            ->add('image', new ImageType());
     }
 
     public function getName()
@@ -24,6 +27,6 @@ class ArticleType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setRequired(array("games"));
+        $resolver->setRequired(array("games","categories"));
     }
 }
