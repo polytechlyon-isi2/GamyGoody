@@ -41,7 +41,11 @@ class User implements UserInterface
      * @var string
      */
     private $role;
-
+    private $surname;
+    private $firstName;
+    private $address;
+    private $city;
+    
     public function getId() {
         return $this->id;
     }
@@ -107,5 +111,37 @@ class User implements UserInterface
      */
     public function eraseCredentials() {
         // Nothing to do here
+    }
+    
+    public function getSurname() {
+        return $this->surname;
+    }
+
+    public function setSurname($surname) {
+        $this->id = $surname;
+    }
+    
+    public function getFirstName() {
+        return $this->firstName;
+    }
+
+    public function setFirstName($firstName) {
+        $this->id = $firstName;
+    }
+    
+    public function getAddress() {
+        return $this->address;
+    }
+
+    public function setAddress($address) {
+        $this->id = $address;
+    }
+    
+    public function getCity() {
+        return $this->city;
+    }
+
+    public function setCity($city) {
+        $this->id = $city;
     }
 }

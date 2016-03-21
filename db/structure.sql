@@ -30,12 +30,17 @@ create table article (
     constraint fk_art_img foreign key(img_id) references image(img_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
+
 create table user (
-    user_id integer not null primary key auto_increment,
-    user_name varchar(50) not null,
-    user_password varchar(88) not null,
-    user_salt varchar(23) not null,
-    user_role varchar(50) not null 
+  user_id integer not null primary key auto_increment,
+  user_name varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  user_surname varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  user_firstname varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  user_address varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  user_city varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  user_password varchar(88) COLLATE utf8_unicode_ci NOT NULL,
+  user_salt varchar(23) COLLATE utf8_unicode_ci NOT NULL,
+  user_role varchar(50) COLLATE utf8_unicode_ci NOT NULL
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
 create table comment (

@@ -68,7 +68,7 @@
             </table>
         </div>
         {% else %}
-        <div class="alert alert-warning">No articles found.</div>
+        <div class="alert alert-warning">No game found.</div>
         {% endif %}
         <a href="{{ path('admin_game_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add game</button></a>
     </div>
@@ -88,7 +88,7 @@
                     <td><a class="gameTitle" href="{{ path('shop') }}">{{ category.title }}</a></td>
                     <td>{{ category.title }}</td>
                     <td>
-                        <a href="" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{{ path('admin_category_edit', { 'id': category.id }) }}" class="btn btn-info btn-xs" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
                         <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#articleDialog"><span class="glyphicon glyphicon-remove"></span>
                         </button>
                         <div class="modal fade" id="articleDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -99,11 +99,11 @@
                                         <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
                                     </div>
                                     <div class="modal-body">
-                                        Do you really want to delete this article ?
+                                        Do you really want to delete this category ?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                        <a href="" class="btn btn-danger">Confirm</a>
+                                        <a href="{{ path('admin_category_delete', { 'id': category.id }) }}" class="btn btn-danger">Confirm</a>
                                     </div>
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
@@ -114,9 +114,9 @@
             </table>
         </div>
         {% else %}
-        <div class="alert alert-warning">No articles found.</div>
+        <div class="alert alert-warning">No category found.</div>
         {% endif %}
-        <a href="{{ path('admin_article_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add article</button></a>
+        <a href="{{ path('admin_category_add') }}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add category</button></a>
     </div>
     <div class="tab-pane fade in active adminTable" id="articles">
         {% if articles %}

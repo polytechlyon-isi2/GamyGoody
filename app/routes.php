@@ -4,10 +4,12 @@ use Symfony\Component\HttpFoundation\Request;
 use GamyGoody\Domain\Comment;
 use GamyGoody\Domain\Article;
 use GamyGoody\Domain\User;
-use  GamyGoody\Domain\Game;
+use GamyGoody\Domain\Game;
+use GamyGoody\Domain\Category;
 use GamyGoody\Form\Type\CommentType;
 use GamyGoody\Form\Type\ArticleType;
-use  GamyGoody\Form\Type\GameType;
+use GamyGoody\Form\Type\GameType;
+use GamyGoody\Form\Type\CategoryType;
 use GamyGoody\Form\Type\UserType;
 use GamyGoody\Form\Type\UserRegisterType;
 use GamyGoody\Form\Type\UserProfilType;
@@ -283,7 +285,8 @@ $app->match('/admin/game/{id}/edit', function($id, Request $request) use ($app) 
         'gameForm' => $gameForm->createView()));
 })->bind('admin_game_edit');
 
-// Remove an article
+
+// Remove an game
 $app->get('/admin/game/{id}/delete', function($id, Request $request) use ($app) {
     // Delete all associated comments
     $app['dao.article']->deleteAllByGame($id);
@@ -293,3 +296,43 @@ $app->get('/admin/game/{id}/delete', function($id, Request $request) use ($app) 
     // Redirect to admin home page
     return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_game_delete');
+
+// Add a new category
+$app->match('/admin/category/add', function(Request $request) use ($app) {
+    $category = new Category();
+    $categoryForm = $app['form.factory']->create(new CategoryType(), $category);
+    $categoryForm->handleRequest($request);
+    if ($categoryForm->isSubmitted() && $categoryForm->isValid()) {
+        $app['dao.category']->save($category);
+        $app['session']->getFlashBag()->add('success', 'The category was successfully created.');
+    }
+    return $app['twig']->render('category_form.html.twig', array(
+        'title' => 'New category',
+        'categoryForm' => $categoryForm->createView()));
+})->bind('admin_category_add');
+
+// Edit an existing category
+$app->match('/admin/category/{id}/edit', function($id, Request $request) use ($app) {
+    $category = $app['dao.category']->find($id);
+    $categoryForm = $app['form.factory']->create(new CategoryType(), $category);
+    $categoryForm->handleRequest($request);
+    if ($categoryForm->isSubmitted() && $categoryForm->isValid()) {
+        $app['dao.category']->save($category);
+        $app['session']->getFlashBag()->add('success', 'The category was succesfully updated.');
+    }
+    return $app['twig']->render('category_form.html.twig', array(
+        'title' => 'Edit category',
+        'categoryForm' => $categoryForm->createView()));
+})->bind('admin_category_edit');
+
+// Remove an category
+$app->get('/admin/category/{id}/delete', function($id, Request $request) use ($app) {
+    // Delete all associated comments
+    $app['dao.category']->deleteAllByCategory($id);
+    // Delete the category
+    $app['dao.category']->delete($id);
+    $app['session']->getFlashBag()->add('success', 'The category was succesfully removed.');
+    // Redirect to admin home page
+    return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_category_delete');
+

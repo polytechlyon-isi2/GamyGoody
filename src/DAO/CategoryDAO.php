@@ -54,7 +54,7 @@ class CategoryDAO extends DAO
      */
     public function save(category $category) {
         $categoryData = array(
-            'category_title' => $category->getTitle()
+            'cat_title' => $category->getTitle()
             );
 
         if ($category->getId()) {
@@ -76,7 +76,7 @@ class CategoryDAO extends DAO
      */
     public function delete($id) {
         // Delete the category
-        $this->getDb()->delete('category', array('category_id' => $id));
+        $this->getDb()->delete('category', array('cat_id' => $id));
     }
     
     public function findAllTitles() {
@@ -90,5 +90,9 @@ class CategoryDAO extends DAO
             $category[$catId] = $row['cat_title'];
         }
         return $category;
+    }
+    
+    public function deleteAllByCategory($id) {
+        $this->getDb()->delete('category', array('cat_id' => $id));
     }
 }

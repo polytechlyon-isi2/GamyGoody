@@ -17,6 +17,11 @@ class UserType extends AbstractType
         $app = $options["app"];
 
         $builder
+            
+        ->add('surname', 'text')
+        ->add('firstName', 'text')
+        ->add('address', 'text')
+        ->add('city', 'text')
         ->add('username', 'text', array(
             'constraints' => array(
                 new Assert\Callback(function ($data, ExecutionContextInterface $context) use ($app)
@@ -25,6 +30,7 @@ class UserType extends AbstractType
                 })
             )
         ))
+        
         ->add('password', 'repeated', array(
             'type'            => 'password',
             'invalid_message' => 'The password fields must match.',
