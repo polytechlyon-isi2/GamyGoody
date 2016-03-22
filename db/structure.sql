@@ -1,10 +1,15 @@
+drop table if exists comment;
+drop table if exists article;
 drop table if exists category;
 drop table if exists game;
-drop table if exists article;
 drop table if exists user;
-drop table if exists comment;
 drop table if exists image;
 
+create table image (
+    img_id integer not null primary key auto_increment,
+    img_url varchar(500) not null,
+    img_alt varchar(500) not null
+) ;
 
 create table category (
     cat_id integer not null primary key auto_increment,
@@ -52,9 +57,3 @@ create table comment (
     constraint fk_com_usr foreign key(user_id) references user(user_id)
 ) engine=innodb character set utf8 collate utf8_unicode_ci;
 
-create table image (
-    img_id integer not null primary key auto_increment,
-    img_url varchar(500) not null,
-    img_alt varchar(500) not null,
-    
-) 

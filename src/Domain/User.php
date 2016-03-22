@@ -118,7 +118,7 @@ class User implements UserInterface
     }
 
     public function setSurname($surname) {
-        $this->id = $surname;
+        $this->surname = $surname;
     }
     
     public function getFirstName() {
@@ -126,7 +126,7 @@ class User implements UserInterface
     }
 
     public function setFirstName($firstName) {
-        $this->id = $firstName;
+        $this->firstName = $firstName;
     }
     
     public function getAddress() {
@@ -134,7 +134,7 @@ class User implements UserInterface
     }
 
     public function setAddress($address) {
-        $this->id = $address;
+        $this->address = $address;
     }
     
     public function getCity() {
@@ -142,6 +142,6 @@ class User implements UserInterface
     }
 
     public function setCity($city) {
-        $this->id = $city;
+        $this->city = $city;
     }
 }

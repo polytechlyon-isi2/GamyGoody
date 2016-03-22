@@ -89,7 +89,7 @@ $app->match('/register', function(Request $request) use ($app) {
         $user->setPassword($password);
         $user->setRole('ROLE_USER');
         $app['dao.user']->save($user);
-        $app['session']->getFlashBag()->add('success', 'Successfully registered.');
+        $app['session']->getFlashBag()->add('success', 'Successfully registered.'.$user->getId());
     }
     return $app['twig']->render('user_register_form.html.twig', array(
         'title' => 'Register',
