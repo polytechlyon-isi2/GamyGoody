@@ -18,6 +18,8 @@ class Category
      */
     private $title;
 
+    private $image;
+
     public function getId() {
         return $this->id;
     }

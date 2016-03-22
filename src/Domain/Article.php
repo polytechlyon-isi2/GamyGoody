@@ -72,7 +72,7 @@ class Article
         return $this->image;
     }
     
-    public function setImage($id){
-        $this->image = $id;
+    public function setImage(Image $image){
+        $this->image = $image;
     }
 }

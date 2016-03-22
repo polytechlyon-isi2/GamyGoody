@@ -2,15 +2,31 @@
 
 namespace GamyGoody\DAO;
 
+use Doctrine\DBAL\Connection;
 use GamyGoody\Domain\Article;
 
 class ArticleDAO extends DAO
 {
+    private $categoryDAO;
+    private $gameDAO;
     private $imageDAO;
     
+    public function setCategoryDAO($categoryDAO){
+        $this->categoryDAO = $categoryDAO;
+    }
+
+    public function setGameDAO($gameDAO){
+        $this->gameDAO = $gameDAO;
+    }
+
     public function setImageDAO($imageDAO){
         $this->imageDAO = $imageDAO;
     }
+
+    protected function getImageDAO() {
+        return $this->imageDAO;
+    }
+
     /**
      * Return a list of all articles, sorted by date (most recent first).
      *
@@ -61,7 +77,14 @@ class ArticleDAO extends DAO
         $article->setContent($row['art_content']);
         $article->setCategory($row['cat_id']);
         $article->setGame($row['game_id']);
-        $article->setImage($imageDAO -> buildDomainObject($row));
+
+        if (array_key_exists('img_id', $row)) {
+            // Find and set the associated author
+            $imgId = $row['img_id'];
+            $image = $this->getImageDAO()->find($imgId);
+            $article->setImage($image);
+        }
+
         return $article;
     }
 
@@ -81,12 +104,13 @@ class ArticleDAO extends DAO
      * @param \MicroCMS\Domain\Article $article The article to save
      */
     public function save(Article $article) {
-        $imageDAO -> save($article -> getImage());
+        $this->getImageDAO() -> save($article -> getImage());
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
             'cat_id' => $article -> getCategory(),
             'game_id' => $article -> getGame(),
+            'img_id' => $article -> getImage() -> getId(),
             );
 
         if ($article->getId()) {

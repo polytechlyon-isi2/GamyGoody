@@ -6,6 +6,7 @@ use GamyGoody\Domain\Article;
 use GamyGoody\Domain\User;
 use GamyGoody\Domain\Game;
 use GamyGoody\Domain\Category;
+use GamyGoody\Domain\Image;
 use GamyGoody\Form\Type\CommentType;
 use GamyGoody\Form\Type\ArticleType;
 use GamyGoody\Form\Type\GameType;

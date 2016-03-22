@@ -41,27 +41,33 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 ));
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
+
 $app['dao.image'] = $app->share(function ($app) {
     return new GamyGoody\DAO\ImageDAO($app['db']);
 });
-// Register services
-$app['dao.article'] = $app->share(function ($app) {
-    $articleDAO = new GamyGoody\DAO\ArticleDAO($app['db']);
-    $articleDAO -> setImageDAO($app['dao.image']);
-    return $articleDAO;
-});
+
 $app['dao.user'] = $app->share(function ($app) {
     return new GamyGoody\DAO\UserDAO($app['db']);
 });
-$app['dao.comment'] = $app->share(function ($app) {
-    $commentDAO = new GamyGoody\DAO\CommentDAO($app['db']);
-    $commentDAO->setArticleDAO($app['dao.article']);
-    $commentDAO->setUserDAO($app['dao.user']);
-    return $commentDAO;
-});
+
 $app['dao.game'] = $app->share(function ($app) {
     return new GamyGoody\DAO\GameDAO($app['db']);
 });
 $app['dao.category'] = $app->share(function ($app) {
     return new GamyGoody\DAO\CategoryDAO($app['db']);
+});
+// Register services
+$app['dao.article'] = $app->share(function ($app) {
+    $articleDAO = new GamyGoody\DAO\ArticleDAO($app['db']);
+    $articleDAO -> setImageDAO($app['dao.image']);
+    $articleDAO -> setGameDAO($app['dao.game']);
+    $articleDAO -> setCategoryDAO($app['dao.category']);
+    return $articleDAO;
+});
+
+$app['dao.comment'] = $app->share(function ($app) {
+    $commentDAO = new GamyGoody\DAO\CommentDAO($app['db']);
+    $commentDAO->setArticleDAO($app['dao.article']);
+    $commentDAO->setUserDAO($app['dao.user']);
+    return $commentDAO;
 });

@@ -2,7 +2,7 @@
 
 namespace GamyGoody\DAO;
 
-use GamyGoody\Domain\Comment;
+use GamyGoody\Domain\Image;
 
 class ImageDAO extends DAO 
 {
@@ -12,7 +12,8 @@ class ImageDAO extends DAO
      * @param array $row The DB row containing Comment data.
      * @return \MicroCMS\Domain\Comment
      */
-    public function buildDomainObject($row) {
+    protected function buildDomainObject($row) 
+    {
         $image = new Image();
         $image ->setId($row['img_id']);
         $image ->setUrl($row['img_url']);
@@ -25,7 +26,7 @@ class ImageDAO extends DAO
         $file = $image -> getFile(); 
         if ($file -> isValid()) {
             
-            $image -> setUrl($file -> guessExtention());
+            $image -> setUrl($file -> guessExtension());
             $image -> setAlt($file -> getClientOriginalName());
             
             $imageData = array(
@@ -49,7 +50,6 @@ class ImageDAO extends DAO
         $dir = $this->getAbsDir();
 
         $file->move($dir, $file_name);
-
     }
 
     /**
@@ -63,7 +63,7 @@ class ImageDAO extends DAO
     }
     
     public function find($id) {
-        $sql = "select * from comment where img_id=?";
+        $sql = "select * from image where img_id=?";
         $row = $this->getDb()->fetchAssoc($sql, array($id));
 
         if ($row)
