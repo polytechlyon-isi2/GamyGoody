@@ -82,6 +82,7 @@ class UserDAO extends DAO implements UserProviderInterface
      */
     protected function buildDomainObject($row) {
         $user = new User();
+        $user->setId($row['user_id']);
         $user->setSurname($row['user_surname']);
         $user->setFirstName($row['user_firstname']);
         $user->setAddress($row['user_address']);
