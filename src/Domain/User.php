@@ -45,6 +45,7 @@ class User implements UserInterface
     private $firstName;
     private $address;
     private $city;
+    private $mail;
     
     public function getId() {
         return $this->id;
@@ -143,5 +144,13 @@ class User implements UserInterface
 
     public function setCity($city) {
         $this->city = $city;
+    }
+    
+    public function getMail() {
+        return $this->mail;
+    }
+
+    public function setMail($mail) {
+        $this->mail = $mail;
     }
 }

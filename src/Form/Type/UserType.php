@@ -30,7 +30,7 @@ class UserType extends AbstractType
                 })
             )
         ))
-        
+        ->add('mail', 'text')
         ->add('password', 'repeated', array(
             'type'            => 'password',
             'invalid_message' => 'The password fields must match.',

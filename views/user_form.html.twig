@@ -19,6 +19,64 @@
 <div class="well">
 {{ form_start(userForm, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="form-group">
+        {{ form_label(userForm.surname, null, { 'label_attr':  {'class': 'col-sm-5 control-label'}}) }}
+        <div class="col-sm-4">
+            {% if form_errors(userForm.surname) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(userForm.surname) }}
+                </div>
+            {% endif %}
+            {{ form_widget(userForm.surname, { 'attr':  {
+            'class': 'form-control'
+        }}) }}
+        </div>
+    </div>
+    <div class="form-group">
+            {{ form_label(userForm.firstName, null, { 'label_attr':  {
+            'class': 'col-sm-5 control-label'
+        }}) }}
+        <div class="col-sm-4">
+            {% if form_errors(userForm.firstName) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(userForm.firstName) }}
+                </div>
+            {% endif %}
+            {{ form_widget(userForm.firstName, { 'attr':  {
+            'class': 'form-control'
+        }}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(userForm.address, null, { 'label_attr':  {
+        'class': 'col-sm-5 control-label'
+    }}) }}
+        <div class="col-sm-4">
+            {% if form_errors(userForm.address) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(userForm.address) }}
+                </div>
+            {% endif %}
+            {{ form_widget(userForm.address, { 'attr':  {
+            'class': 'form-control'
+        }}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(userForm.city, null, { 'label_attr':  {
+        'class': 'col-sm-5 control-label'
+    }}) }}
+        <div class="col-sm-4">
+            {% if form_errors(userForm.city) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(userForm.city) }}
+                </div>
+            {% endif %}
+            {{ form_widget(userForm.city, { 'attr':  {
+            'class': 'form-control'
+        }}) }}
+        </div>
+    </div>
+    <div class="form-group">
         {{ form_label(userForm.username, null, { 'label_attr':  {
             'class': 'col-sm-5 control-label'
         }}) }}

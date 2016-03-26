@@ -3,6 +3,7 @@
 {% block title %}Profil{% endblock %}
 
 {% block content %}
+    <h2 class="text-center">{{ block('title') }}</h2>
 
 {% for flashMessage in app.session.flashbag.get('success') %}
 <div class="alert alert-success">
@@ -11,7 +12,40 @@
 {% endfor %}
 
 <article>
-    <p>{{ app.user.username }}</p>
-    <a href="{{ path('profil_edit') }}" class="btn btn-primary btn-default">Edit</a>
+    <div class="well">
+        <div class="form-group">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th> Pseudo :</th>
+                        <th>{{ app.user.username }}</th>
+                    </tr>
+                    <tr>
+                        <th> Surname : </th> 
+                        <th>{{ app.user.surname }}</th>
+                    </tr>
+                    <tr>
+                        <th> First Name : </th>
+                        <th>{{ app.user.firstName }}</th>
+                    </tr>
+                    <tr>
+                        <th> Address : </th>
+                        <th>{{ app.user.address }}</th>
+                    </tr>
+                    <tr>    
+                        <th> City :</th>
+                        <th>{{ app.user.city }}</th>
+                    </tr>
+                    <tr>    
+                        <th> Mail : </th>
+                         <th>{{ app.user.mail }}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-offset-5 col-sm-3">
+            <a href="{{ path('profil_edit') }}" class="btn btn-primary btn-default">Edit</a>
+        </div>
+    </div>
 </article>
 {% endblock %}
