@@ -46,6 +46,12 @@ $app['dao.image'] = $app->share(function ($app) {
     return new GamyGoody\DAO\ImageDAO($app['db']);
 });
 
+$app['dao.article_image'] = $app->share(function ($app) {
+    $article_imageDAO = new GamyGoody\DAO\ArticleImageDAO($app['db']);
+    $article_imageDAO -> setImageDAO($app['dao.image']);
+    return $article_imageDAO;
+});
+
 $app['dao.user'] = $app->share(function ($app) {
     return new GamyGoody\DAO\UserDAO($app['db']);
 });
@@ -62,6 +68,7 @@ $app['dao.article'] = $app->share(function ($app) {
     $articleDAO -> setImageDAO($app['dao.image']);
     $articleDAO -> setGameDAO($app['dao.game']);
     $articleDAO -> setCategoryDAO($app['dao.category']);
+    $articleDAO -> setArticleImageDAO($app['dao.article_image']);
     return $articleDAO;
 });
 

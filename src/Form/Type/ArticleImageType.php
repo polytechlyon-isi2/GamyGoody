@@ -7,22 +7,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ImageType extends AbstractType
+class ArticleImageType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('file', 'file', array('label' => false,'constraints' => array(new Assert\Image())));
+     $builder->add('image', new ImageType())
+      ->add('level', 'integer', ['data' => '0']);
   }
 
   public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
     $resolver->setDefaults(array(
-      'data_class' => 'GamyGoody\Domain\Image',
+      'data_class' => 'GamyGoody\Domain\ArticleImage'
       ));
   }
 
   public function getName()
   {
-    return 'image';
+    return 'article_image';
   }
 }

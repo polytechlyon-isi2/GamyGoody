@@ -22,18 +22,14 @@ class ImageDAO extends DAO
         return $image;
     }
 
-    public function save(Image $image) {        
-        $file = $image -> getFile(); 
-        if ($file -> isValid()) {
-            
-            $image -> setUrl($file -> guessExtension());
-            $image -> setAlt($file -> getClientOriginalName());
-            
+    public function save(Image $image) 
+    {        
+        $image->preUpload();
+
             $imageData = array(
             'img_url' => $image->getUrl(),
             'img_alt' => $image->getAlt()
             );
-        }
         
         if ($image->getId()) {
             // The comment has already been saved : update it
@@ -45,11 +41,7 @@ class ImageDAO extends DAO
             $id = $this->getDb()->lastInsertId();
             $image->setId($id);
         }
-        
-        $file_name = 'img_'.$image->getId().'.'.$image -> getUrl();
-        $dir = $this->getAbsDir();
-
-        $file->move($dir, $file_name);
+        $image->upload();
     }
 
     /**
@@ -57,9 +49,16 @@ class ImageDAO extends DAO
      *
      * @param @param integer $id The comment id
      */
-    public function delete($id) {
+    
+    public function deleteImage(Image $image) {
         // Delete the comment
-        $this->getDb()->delete('image', array('img_id' => $id));
+        $image->preRemoveUpload();
+        $this->getDb()->delete('image', array('img_id' => $image->getId()));
+        $image->removeUpload();
+    }
+
+    public function delete($id) {
+        $this->deleteImage($this->find($id));
     }
     
     public function find($id) {

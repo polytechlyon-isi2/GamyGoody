@@ -20,13 +20,17 @@ class Article
     private $gameid;
     private $catid;
     private $image;
-
+    private $images;
     /**
      * Article content.
      *
      * @var string
      */
     private $content;
+
+    public function __construct() {
+        $images = array(new ArticleImage());
+    }
 
     public function getId() {
         return $this->id;
@@ -74,5 +78,29 @@ class Article
     
     public function setImage(Image $image){
         $this->image = $image;
+    }
+
+    /**
+     * Gets the value of images.
+     *
+     * @return mixed
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Sets the value of images.
+     *
+     * @param mixed $images the images
+     *
+     * @return self
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
+
+        return $this;
     }
 }

@@ -18,6 +18,12 @@ class ArticleType extends AbstractType
             ->add('category', 'choice', array(
             'choices' => $options['categories']))
             ->add('image', new ImageType());
+
+        $builder->add('images', 'collection', array(
+            'type'         => new ArticleImageType(),
+            'allow_add'    => true,
+            'allow_delete' => true,
+            ));
     }
 
     public function getName()

@@ -1,0 +1,96 @@
+
+
+{% macro collectionImage(formData) %}
+        {{ form_errors(formData.file) }}
+            <div class="row">
+                {{ form_widget(formData.file, { 'attr':  {
+                'class': 'col-xs-10',
+                }}) }}
+            </div>
+    {% endmacro %}
+
+
+    <div class="form-group">
+        {{ form_label(articleForm.images, null, { 'label_attr':  {
+            'class': 'col-sm-4 control-label',
+        }}) }}
+        <div class="col-sm-6">
+            <ul class="list-group article_images" data-prototype='{{ _self.collectionImage(articleForm.images.vars.prototype)|e }}'>
+                {% for image in articleForm.images %}
+                    <li class="list-group-item">
+                        {{ _self.collectionImage(image) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+<script type="text/javascript">
+    var $collectionHolder;
+
+    // setup an "add a tag" link
+    var $addImageLink = $('<a href="#" class="btn btn-block btn-sm btn-primary add_image_link"><span class="glyphicon glyphicon-plus"></span> Ajouter une image</a>');
+    var $newLinkLi = $('<li class="list-group-item"></li>').append($addImageLink);
+
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul.article_images');
+
+        // add a delete link to all of the existing tag form li elements
+        $collectionHolder.find('li').each(function() {
+            addImageFormDeleteLink($(this));
+        });
+
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addImageLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addImageForm($collectionHolder, $newLinkLi);
+        });
+
+        function addImageForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li class="list-group-item"></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+
+            addImageFormDeleteLink($newFormLi);
+        }
+
+        function addImageFormDeleteLink($imageFormLi) {
+
+            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span></a>');
+            $imageFormLi.find('div').append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+                // remove the li for the tag form
+                $imageFormLi.remove();
+            });
+        }
+
+    });
+ </script>

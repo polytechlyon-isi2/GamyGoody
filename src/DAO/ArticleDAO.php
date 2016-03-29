@@ -9,6 +9,7 @@ class ArticleDAO extends DAO
 {
     private $categoryDAO;
     private $gameDAO;
+    private $article_imageDAO;
     private $imageDAO;
     
     public function setCategoryDAO($categoryDAO){
@@ -17,6 +18,14 @@ class ArticleDAO extends DAO
 
     public function setGameDAO($gameDAO){
         $this->gameDAO = $gameDAO;
+    }
+
+    public function setArticleImageDAO($articleimageDAO){
+        $this->article_imageDAO = $articleimageDAO;
+    }
+
+    public function getArticleImageDAO(){
+        return $this->article_imageDAO;
     }
 
     public function setImageDAO($imageDAO){
@@ -85,6 +94,8 @@ class ArticleDAO extends DAO
             $article->setImage($image);
         }
 
+       $article->setImages($this->getArticleImageDAO()->findAllByArticle($article->getId()));
+
         return $article;
     }
 
@@ -105,6 +116,14 @@ class ArticleDAO extends DAO
      */
     public function save(Article $article) {
         $this->getImageDAO() -> save($article -> getImage());
+
+        $images = $article->getImages();
+        foreach($images as $image)
+        {
+            $image->setArticle($article);
+            $this->getArticleImageDAO() -> save($image);
+        }
+
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
@@ -132,7 +151,9 @@ class ArticleDAO extends DAO
      */
     public function delete($id) {
         // Delete the article
+        $image = $this->find($id)->getImage();
         $this->getDb()->delete('article', array('art_id' => $id));
+        $this->getImageDAO()->deleteImage($image);
     }
     
      public function deleteAllByGame($id) {
