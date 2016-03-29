@@ -56,6 +56,10 @@ $app['dao.user'] = $app->share(function ($app) {
     return new GamyGoody\DAO\UserDAO($app['db']);
 });
 
+$app['dao.basket'] = $app->share(function ($app) {
+    return new GamyGoody\DAO\BasketDAO($app['db']);
+});
+
 $app['dao.game'] = $app->share(function ($app) {
     return new GamyGoody\DAO\GameDAO($app['db']);
 });

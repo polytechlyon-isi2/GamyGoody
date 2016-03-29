@@ -149,6 +149,12 @@ $app->get('/admin', function() use ($app) {
         'categories' => $categories));
 })->bind('admin');
 
+// Basket home page
+$app->get('/basket', function () use ($app) {
+    $basket = $app['dao.basket']->creationBasket();
+    return $app['twig']->render('basket.html.twig');
+})->bind('basket');
+
 // Add a new article
 $app->match('/admin/article/add', function(Request $request) use ($app) {
     $article = new Article();

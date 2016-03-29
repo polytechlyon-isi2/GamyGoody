@@ -2,7 +2,7 @@
 
 namespace GamyGoody\Domain;
 
-class Pannier 
+class Basket 
 {
     private $libelleProduit;
     private $qteProduit;
