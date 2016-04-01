@@ -1,0 +1,73 @@
+{% extends 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block collection_widget %}
+{% spaceless %}
+    <div class="collection">
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': block('collection_item_widget') }) %}
+        {% endif %}
+        <div {{ block('widget_container_attributes') }}>
+            {{ form_errors(form) }}
+            <ul class="list-group">
+            {% for prototype in form %}
+                {{ block('collection_item_widget') }}
+            {% endfor %}
+            <li class="list-group-item">
+                <a class="btn btn-block btn-sm btn-primary add_image_link" title="Add" href="#">
+                    <span class="glyphicon glyphicon-plus"></span> Ajouter une image
+                </a>
+            </li>
+            </ul>
+            {{ form_rest(form) }}
+        </div>
+        <div class="clear"></div>
+        
+    </div>
+    <div class="clear"></div>
+{% endspaceless %}
+{% endblock collection_widget %}
+
+{% block collection_item_widget %}
+{% spaceless %}
+    <li class="list-group-item">
+        {{ form_widget(prototype) }}
+        <a href="#" class="btn btn-block btn-sm btn-danger remove_image_link"><span class="glyphicon glyphicon-remove"></span> Supprimer</a>
+    {#{% set fieldNum = 1 %}
+    {% for row in prototype %}
+        <div class="field{{ fieldNum }}">
+        {{ form_label(row) }}
+        {{ form_widget(row, { 'attr': { 'class': 'test' }}) }}
+        </div>
+        {% set fieldNum = fieldNum + 1 %}
+    {% endfor %}
+        <a class="remove" title="Remove" href="javascript:void()">
+            <span>Delete</span>
+        </a>
+        <div class="clear"></div>#}
+    </li>
+{% endspaceless %}
+{% endblock collection_item_widget %}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+    {% if form.parent %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+    <ul class="list-unstyled">
+        {%- for error in errors -%}
+            <li class="alert alert-danger"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ error.message }}</li>
+        {%- endfor -%}
+    </ul>
+    {% if form.parent %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
+
+{%- block submit_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('btn-success') ~ ' btn btn-block')|trim}) %}
+    {{- parent() -}}
+{%- endblock submit_widget -%}
+
+{% block form_widget_simple -%}
+    {% if type is defined and 'file' == type %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {% endif %}
+    {{- parent() -}}
+{%- endblock form_widget_simple %}

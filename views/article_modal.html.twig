@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="responsive-container col-xs-12">
+            <div class="ratio-1-1"></div>
+            <div class="img-container img-container-full">
+                {% if article.images is not empty %}
+                    <img class="image_selected img-rounded img-responsive" src="{{ article.images.0.image.webPath }}" alt="{{ article.images.0.image.alt }}"/>
+                {% else %}
+                    <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row image_list">
+            {% for articleimage in article.images %}
+                <div class="col-xs-4">
+                    <a href="#" class="image_listed">
+                        <img src="{{ articleimage.image.webPath }}" alt="{{ articleimage.image.alt }}" class="img-rounded img-responsive"/>
+                    </a>
+                </div>
+            {% else %}
+                    No image.
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.content }}</p>
+
+        {% set var = {'path_delete' : 'admin_comment_edit', 'path_edit' : 'admin_comment_delete', 'data_id' : article.id} %}
+        {% include 'edit_delete.html.twig' with {'var' : var} %}
+    </div>
+</div>
+<script>
+    var $image_selected;
+
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover({ trigger: "hover" });   
+        $('[data-toggle="tooltip"]').tooltip();   
+
+        $image_selected = $('.image_selected');
+
+        $('.image_listed').on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+            // add a new tag form (see next code block)
+            setImageSelected($(this));
+        });
+
+        function setImageSelected($image) 
+        {
+            var url = $('img', $image).attr("src");
+            $image_selected.attr("src", url);
+        }
+    });
+</script>

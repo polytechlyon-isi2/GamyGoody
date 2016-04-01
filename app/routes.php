@@ -37,7 +37,6 @@ $app->get('/shop/{game_id}/{category_id}', function ($game_id, $category_id) use
     {
         $game = false;
         $articles = $app['dao.article']->findAll();
-        
     }
     return $app['twig']->render('shop.html.twig', array('games' => $games, 'categories' => $categories, 'articles' => $articles, 'game' => $game));
 })->value('game_id', '')->value('category_id', '')->bind('shop');
@@ -66,6 +65,15 @@ $app->match('/article/{id}', function ($id, Request $request) use ($app) {
         'comments' => $comments,
         'commentForm' => $commentFormView));
 })->bind('article');
+
+
+// Article modal
+$app->match('/article/modal/{id}', function ($id, Request $request) use ($app) {
+    $article = $app['dao.article']->find($id);
+    $bascketForm = null;
+    return $app['twig']->render('article_modal.html.twig', array('article' => $article));
+})->bind('article_modal');
+
 
 // Login form
 $app->get('/login', function(Request $request) use ($app) {
@@ -144,6 +152,7 @@ $app->get('/admin', function() use ($app) {
 // Add a new article
 $app->match('/admin/article/add', function(Request $request) use ($app) {
     $article = new Article();
+    $article->setImages([new ArticleImage()]);
     $games = $app['dao.game'] ->findAllTitles();
     $categories = $app['dao.category'] ->findAllTitles();
     $articleForm = $app['form.factory']->create(new ArticleType(), $article, array('games' => $games, 'categories' => $categories));

@@ -24,6 +24,8 @@ class ArticleType extends AbstractType
             'allow_add'    => true,
             'allow_delete' => true,
             ));
+        $builder->add('save',      'submit');
+
     }
 
     public function getName()

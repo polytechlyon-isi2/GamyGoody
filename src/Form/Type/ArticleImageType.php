@@ -12,7 +12,7 @@ class ArticleImageType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
      $builder->add('image', new ImageType())
-      ->add('level', 'integer', ['data' => '0']);
+      ->add('level', 'integer');
   }
 
   public function setDefaultOptions(OptionsResolverInterface $resolver)

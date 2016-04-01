@@ -29,7 +29,7 @@ class Article
     private $content;
 
     public function __construct() {
-        $images = array(new ArticleImage());
+        $images = array();
     }
 
     public function getId() {
@@ -99,6 +99,10 @@ class Article
      */
     public function setImages($images)
     {
+        foreach ($images as $image) 
+        {
+            $image->setArticle($this);
+        }
         $this->images = $images;
 
         return $this;

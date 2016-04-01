@@ -11,7 +11,7 @@ class ImageType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('file', 'file', array('label' => false,'constraints' => array(new Assert\Image())));
+    $builder->add('file', 'file', array('required' => false, 'label' => false,'constraints' => array(new Assert\Image())));
   }
 
   public function setDefaultOptions(OptionsResolverInterface $resolver)

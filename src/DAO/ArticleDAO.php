@@ -61,16 +61,16 @@ class ArticleDAO extends DAO
      * @return array A list of articles.
      */
     public function findAllByGameId($id) {
-        $sql = "select * from article where game_id=? order by game_id desc";
+        $sql = "select * from article where game_id=? order by art_id desc";
         $result = $this->getDb()->fetchAll($sql, array($id));
 
         // Convert query result to an array of domain objects
-        $games = array();
+        $articles = array();
         foreach ($result as $row) {
-            $gameId = $row['game_id'];
-            $games[$gameId] = $this->buildDomainObject($row);
+            $articleId = $row['art_id'];
+            $articles[$articleId] = $this->buildDomainObject($row);
         }
-        return $games;
+        return $articles;
     }
 
     /**
@@ -117,13 +117,6 @@ class ArticleDAO extends DAO
     public function save(Article $article) {
         $this->getImageDAO() -> save($article -> getImage());
 
-        $images = $article->getImages();
-        foreach($images as $image)
-        {
-            $image->setArticle($article);
-            $this->getArticleImageDAO() -> save($image);
-        }
-
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
@@ -141,6 +134,13 @@ class ArticleDAO extends DAO
             // Get the id of the newly created article and set it on the entity.
             $id = $this->getDb()->lastInsertId();
             $article->setId($id);
+        }
+
+        $images = $article->getImages();
+        foreach($images as $image)
+        {
+            $image->setArticle($article);
+            $this->getArticleImageDAO() -> save($image);
         }
     }
 

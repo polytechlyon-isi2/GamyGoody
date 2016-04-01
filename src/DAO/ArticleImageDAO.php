@@ -8,6 +8,7 @@ use GamyGoody\Domain\ArticleImage;
 class ArticleImageDAO extends DAO
 {
     private $imageDAO;
+    private $articleDAO;
 
     public function setImageDAO($imageDAO){
         $this->imageDAO = $imageDAO;
@@ -17,15 +18,23 @@ class ArticleImageDAO extends DAO
         return $this->imageDAO;
     }
 
+    public function setArticleDAO($articleDAO){
+        $this->articleDAO = $articleDAO;
+    }
+
+    protected function getArticleDAO() {
+        return $this->articleDAO;
+    }
+
     public function findAllByArticle($id) {
-        $sql = "select * from article_image where article_id=?";
+        $sql = "select * from article_image where article_id=? order by level";
         $result = $this->getDb()->fetchAll($sql, array($id));
 
         // Convert query result to an array of domain objects
         $images = array();
         foreach ($result as $row) {
             $imageId = $row['image_id'];
-            $images[$imageId] = $this->buildDomainObject($row);
+            $images[] = $this->buildDomainObject($row);
         }
         return $images;
     }
@@ -36,24 +45,16 @@ class ArticleImageDAO extends DAO
      * @param array $row The DB row containing Article data.
      * @return \MicroCMS\Domain\Article
      */
-    protected function buildDomainObject($result) {
+    protected function buildDomainObject($row) {
         $articleimage = new ArticleImage();
         $articleimage->setId($row['id']);
-        $articleimage->setTitle($row['art_title']);
-        $articleimage->setContent($row['art_content']);
+        $articleimage->setLevel($row['level']);
 
         if (array_key_exists('image_id', $row)) {
             // Find and set the associated author
             $imgId = $row['image_id'];
             $image = $this->getImageDAO()->find($imgId);
             $articleimage->setImage($image);
-        }
-
-        if (array_key_exists('article_id', $row)) {
-            // Find and set the associated author
-            $artId = $row['article_id'];
-            $article = $this->getArticleDAO()->find($artId);
-            $articleimage->setArticle($article);
         }
 
         return $articleimage;

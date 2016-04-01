@@ -87,17 +87,37 @@ body {
     max-height: 80%;
 }
 
-.img-container:hover .img-info {
-    margin-top: -25%;
+.img-container-full img {
+    vertical-align: middle;
+    display: inline-block;
+    min-width: 100%;
+    min-height: 100%;
 }
 
-.img-container .img-info {
+.img-container:hover .caption {
     height: 20%;
+}
+
+.img-container .caption{
+    height: 0%;
     width: 100%;
-    transition: margin-top 0.4s ease-out;
-    background-color: green;
-    margin-top: 1%;
-    background-image: url('http://psycho-therapie-toulouse.fr/wp-content/uploads/2015/06/7.jpg');
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    transition: height 0.3s ease-out;
+    bottom: 0;
+    display:table;
+}
+
+.img-container .caption span{
+    font-size: 0px;
+    width:100%;
+    display:table-cell;
+    vertical-align:middle;
+    transition: font-size 0.3s ease-out;
+}
+
+.img-container:hover .caption span{
+    font-size: 25px;
 }
 
 .responsive-container
@@ -142,4 +162,43 @@ body {
 .test
 {
     background-color: yellow;
+}
+
+.image_list
+{
+    margin-bottom: 20px;
+}
+
+
+/* Article modal */
+.modal-article
+{
+    width:50%;
+}
+
+.modal-content
+{
+    border: none;
+    border-radius: 0;
+    border-top: solid rgb(0,200,255) 5px;
+    padding: 10px;
+}
+
+.modal-content .close-modal
+{
+    background-color: rgb(0,200,255);
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.modal-article-content
+{
+    margin-top: 40px;
 }

@@ -32,11 +32,11 @@ class ArticleImage
     }
 
     public function getImage() {
-        return $this->id;
+        return $this->image;
     }
 
-    public function setImage($id) {
-        $this->id = $id;
+    public function setImage($image) {
+        $this->image = $image;
     }
 
     /**
