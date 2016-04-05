@@ -18,120 +18,29 @@ use GamyGoody\Form\Type\UserProfilType;
 use GamyGoody\Form\Type\ArticleImageType;
 
 // Home page
-$app->get('/', function () use ($app) {
-    $games = $app['dao.game']->findAll();
-    return $app['twig']->render('index.html.twig', array('games' => $games));
-})->bind('home');
-
+$app->get('/', "GamyGoody\Controller\HomeController::indexAction")->bind('home');
 // Shop page with all articles filtered by game, category, 
-$app->get('/shop/{game_id}/{category_id}', function ($game_id, $category_id) use ($app) 
-{
-    $games = $app['dao.game']->findAll();
-    $categories = $app['dao.category']->findAll();
-    if($app['dao.game']->isGameExistant($game_id))
-    {
-        $game = $app['dao.game']->find($game_id);
-        $articles = $app['dao.article']->findAllByGameId($game_id);
-    }
-    else
-    {
-        $game = false;
-        $articles = $app['dao.article']->findAll();
-    }
-    return $app['twig']->render('shop.html.twig', array('games' => $games, 'categories' => $categories, 'articles' => $articles, 'game' => $game));
-})->value('game_id', '')->value('category_id', '')->bind('shop');
+$app->get('/shop/{game_id}/{category_id}', "GamyGoody\Controller\HomeController::shopAction")->value('game_id', '')->value('category_id', '')->bind('shop');
 
 // Article details with comments
-$app->match('/article/{id}', function ($id, Request $request) use ($app) {
-    $article = $app['dao.article']->find($id);
-    $commentFormView = null;
-    if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
-        // A user is fully authenticated : he can add comments
-        $comment = new Comment();
-        $comment->setArticle($article);
-        $user = $app['user'];
-        $comment->setAuthor($user);
-        $commentForm = $app['form.factory']->create(new CommentType(), $comment);
-        $commentForm->handleRequest($request);
-        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-            $app['dao.comment']->save($comment);
-            $app['session']->getFlashBag()->add('success', 'Your comment was succesfully added.');
-        }
-        $commentFormView = $commentForm->createView();
-    }
-    $comments = $app['dao.comment']->findAllByArticle($id);
-    return $app['twig']->render('article.html.twig', array(
-        'article' => $article, 
-        'comments' => $comments,
-        'commentForm' => $commentFormView));
-})->bind('article');
+$app->match('/article/{id}', "GamyGoody\Controller\HomeController::articleAction")->bind('article');
 
 
 // Article modal
-$app->match('/article/modal/{id}', function ($id, Request $request) use ($app) {
-    $article = $app['dao.article']->find($id);
-    $bascketForm = null;
-    return $app['twig']->render('article_modal.html.twig', array('article' => $article));
-})->bind('article_modal');
+$app->match('/article/modal/{id}', "GamyGoody\Controller\HomeController::articlemodalAction")->bind('article_modal');
 
 
 // Login form
-$app->get('/login', function(Request $request) use ($app) {
-    return $app['twig']->render('login.html.twig', array(
-        'error'         => $app['security.last_error']($request),
-        'last_username' => $app['session']->get('_security.last_username'),
-        ));
-})->bind('login');
+$app->get('/login', "GamyGoody\Controller\HomeController::loginAction")->bind('login');
 
 // Register form
-$app->match('/register', function(Request $request) use ($app) {
-    $user = new User();
-    $userForm = $app['form.factory']->create(new UserRegisterType(), $user, array('app' => $app));
-    $userForm->handleRequest($request);
-    if ($userForm->isSubmitted() && $userForm->isValid() && $user) {
-        // generate a random salt value
-        $salt = substr(md5(time()), 0, 23);
-        $user->setSalt($salt);
-        $plainPassword = $user->getPassword();
-        // find the default encoder
-        $encoder = $app['security.encoder.digest'];
-        // compute the encoded password
-        $password = $encoder->encodePassword($plainPassword, $user->getSalt());
-        $user->setPassword($password);
-        $user->setRole('ROLE_USER');
-        $app['dao.user']->save($user);
-        $app['session']->getFlashBag()->add('success', 'Successfully registered.'.$user->getId());
-    }
-    return $app['twig']->render('user_register_form.html.twig', array(
-        'title' => 'Register',
-        'userForm' => $userForm->createView()));
-})->bind('register');
+$app->match('/register', "GamyGoody\Controller\HomeController::registerAction")->bind('register');
 
 // Profil page
-$app->get('/profil', function () use ($app) {
-    $articles = $app['dao.article']->findAll();
-    return $app['twig']->render('user_profil.html.twig');
-})->bind('profil');
+$app->get('/profil', "GamyGoody\Controller\HomeController::profilAction")->bind('profil');
 
 // Edit profil
-$app->match('/profil/edit', function (Request $request) use ($app) {
-    $user = $app['user'];
-    $userForm = $app['form.factory']->create(new UserProfilType(), $user, array('app' => $app)); 
-    $userForm->handleRequest($request);
-    if ($userForm->isSubmitted() && $userForm->isValid()) {
-        $plainPassword = $user->getPassword();
-        // find the encoder for the user
-        $encoder = $app['security.encoder_factory']->getEncoder($user);
-        // compute the encoded password
-        $password = $encoder->encodePassword($plainPassword, $user->getSalt());
-        $user->setPassword($password); 
-        $app['dao.user']->save($user);
-        $app['session']->getFlashBag()->add('success', 'Your profil was succesfully updated.');
-    }
-    return $app['twig']->render('user_profil_form.html.twig', array(
-        'title' => 'Edit profil',
-        'userForm' => $userForm->createView()));
-})->bind('profil_edit');
+$app->match('/profil/edit', "GamyGoody\Controller\HomeController::profileditAction")->bind('profil_edit');
 
 
 // Admin home page
