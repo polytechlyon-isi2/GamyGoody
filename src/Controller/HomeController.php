@@ -11,6 +11,7 @@ use GamyGoody\Domain\User;
 use GamyGoody\Domain\Game;
 use GamyGoody\Domain\Category;
 use GamyGoody\Domain\Image;
+use GamyGoody\Domain\ArticlePanier;
 use GamyGoody\Domain\ArticleImage;
 use GamyGoody\Form\Type\CommentType;
 use GamyGoody\Form\Type\ArticleType;
@@ -20,6 +21,7 @@ use GamyGoody\Form\Type\UserType;
 use GamyGoody\Form\Type\UserRegisterType;
 use GamyGoody\Form\Type\UserProfilType;
 use GamyGoody\Form\Type\ArticleImageType;
+use GamyGoody\Form\Type\ArticlePanierType;
 
 
 class HomeController {
@@ -34,10 +36,9 @@ class HomeController {
         return $app['twig']->render('index.html.twig', array('games' => $games));
     }
 
-    public function shopAction($game_id, $category_id, Application $app)
+    public function shopAction($game_id, Application $app)
     {
         $games = $app['dao.game']->findAll();
-        $categories = $app['dao.category']->findAll();
         if($app['dao.game']->isGameExistant($game_id))
         {
             $game = $app['dao.game']->find($game_id);
@@ -48,12 +49,19 @@ class HomeController {
             $game = false;
             $articles = $app['dao.article']->findAll();
         }
-        return $app['twig']->render('shop.html.twig', array('games' => $games, 'categories' => $categories, 'articles' => $articles, 'game' => $game));
+        return $app['twig']->render('shop.html.twig', array('games' => $games, 'articles' => $articles, 'game' => $game));
     }
 
     public function articleAction($id, Request $request, Application $app)
     {
         $article = $app['dao.article']->find($id);
+
+        $articlepanier = new ArticlePanier();
+        $articlepanier->setArticle($article->getId());
+        $articleForm = $app['form.factory']->create(new ArticlePanierType(), $articlepanier, ['action' =>  $app['url_generator']->generate('add_article_to_basket')]);
+        $articleForm->handleRequest($request);
+        $articleFormView = $articleForm->createView();
+
         $commentFormView = null;
         if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
             // A user is fully authenticated : he can add comments
@@ -73,14 +81,21 @@ class HomeController {
         return $app['twig']->render('article.html.twig', array(
             'article' => $article, 
             'comments' => $comments,
-            'commentForm' => $commentFormView));
+            'commentForm' => $commentFormView,
+            'articleForm' => $articleFormView));
     }
 
     public function articlemodalAction($id, Request $request, Application $app)
     {
         $article = $app['dao.article']->find($id);
-        $bascketForm = null;
-        return $app['twig']->render('article_modal.html.twig', array('article' => $article));
+
+        $articlepanier = new ArticlePanier();
+        $articlepanier->setArticle($article->getId());
+        $articleForm = $app['form.factory']->create(new ArticlePanierType(), $articlepanier, ['action' =>  $app['url_generator']->generate('add_article_to_basket')]);
+        $articleForm->handleRequest($request);
+        $articleFormView = $articleForm->createView();
+
+        return $app['twig']->render('article_modal.html.twig', array('article' => $article, 'articleForm' => $articleFormView));
     }
 
     public function loginAction(Request $request, Application $app) 
@@ -139,5 +154,36 @@ class HomeController {
         return $app['twig']->render('user_profil_form.html.twig', array(
             'title' => 'Edit profil',
             'userForm' => $userForm->createView()));
+    }
+
+    public function addarticlepanierAction(Request $request, Application $app)
+    {
+        $articlepanier = new ArticlePanier();
+        $user = $app['user'];
+        $articleForm = $app['form.factory']->create(new ArticlePanierType(), $articlepanier, ['action' =>  $app['url_generator']->generate('add_article_to_basket')]);
+        $articleForm->handleRequest($request);
+        if ($articleForm->isSubmitted() && $articleForm->isValid()) 
+        {
+         if(!$app['session']->has('panier'))
+         {
+            $app['session']->set('panier', array($articlepanier->getArticle() => $articlepanier->getQuantity()));
+         }
+         else
+         {
+            $panier = $app['session']->get('panier');
+            $panier[$articlepanier->getArticle()] = $articlepanier->getQuantity();
+            $app['session']->set('panier', $panier);
+         }
+
+         $app['session']->set('panier_size', sizeof($app['session']->get('panier')));
+     }
+
+     return $app->redirect($app['url_generator']->generate('panier'));
+ } 
+
+ public function panierAction(Application $app)
+     {
+        $articles = $app['dao.panier']->buildAll();
+        return $app['twig']->render('panier.html.twig', array('articles' => $articles));
     }
 }

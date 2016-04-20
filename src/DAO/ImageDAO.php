@@ -68,7 +68,7 @@ class ImageDAO extends DAO
         if ($row)
             return $this->buildDomainObject($row);
         else
-            throw new \Exception("No comment matching id " . $id);
+            throw new \Exception("No image matching id " . $id);
     }
     
     private function getAbsDir()

@@ -1,7 +1,11 @@
 {% extends "layout.html.twig" %}
 
 {% block title %}
-    {{ "Titre" }}
+    {% if game %}
+        {{ game.title }}
+    {% else %}
+        All
+    {% endif %}
 {% endblock %}
 
 
@@ -9,7 +13,7 @@
     {% if game %}
         .brand-header
         {
-            background-image: url('{{ app.request.basepath ~ game.background_dir }}')
+            background-image: url('{{ game.background.webPath }}')
         }
     {% endif %}
 {% endblock %}
@@ -17,7 +21,7 @@
 {% block header%}
     {% if game %}
         <div class="row brand-header">
-            <img src="{{ app.request.basepath ~ game.logo_dir }}"/>
+            <img src="{{ game.logo.webPath }}"/>
         </div>
     {% endif %}
 {% endblock %}
@@ -34,15 +38,6 @@
                  <li><a href="{{ path('shop') }}">All</a></li>
                  {% for game in games %}
                     <li><a href="{{ path('shop', { 'game_id': game.id }) }}">{{game.title}}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                 <li><a href="{{ path('shop') }}">All</a></li>
-                 {% for category in categories %}
-                    <li><a href="">{{category.title}}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -80,7 +75,7 @@
             <div class="modal-content">
                 <a class="close-modal" href="#"><span class="glyphicon glyphicon-remove"></span></a>
                 <div class="modal-article-content">
-                    content
+                    <img class'image-responsive' src="/images/loader.gif"/>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -100,13 +95,17 @@
             $('.modal-article-link[data-href]').on('click', function(e) 
             {
                 e.preventDefault();
+
+                $modal.find('.modal-article-content').html("<img class'image-responsive' src='/images/loader.gif'/>");
+                $('#modal-add-bascket').modal({show: true , backdrop : true , keyboard: true});
+
                 var url = "{{ path('article_modal', {'id': 'article_id'}) }}"; 
                 url = url.replace("article_id", $(this).attr("data-href"));
+
                 $.ajax({
                     url: url,
                 }).success(function(response) {
-                    populateModal($(this), response);
-                    $('#modal-add-bascket').modal({show: true , backdrop : true , keyboard: true});
+                   populateModal($(this), response);
                 });
             });
 

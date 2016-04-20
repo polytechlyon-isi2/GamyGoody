@@ -12,10 +12,8 @@ class GameType extends AbstractType
     {
         $builder
             ->add('title', 'text')
-            ->add('logo', 'file', array('label' => 'Logo (image file)',
-            	'constraints' => array(new Assert\Image())))
-            ->add('background', 'file', array('label' => 'Background (image file)',
-            	'constraints' => array(new Assert\Image())));
+            ->add('logo', new ImageType(), array('label' => 'Logo (image file)'))
+            ->add('background', new ImageType(), array('label' => 'Background (image file)'));
     } 
 
     public function getName()

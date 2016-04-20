@@ -1,0 +1,16 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        {% for article in articles %}
+            {{ article.quantity }}
+            {{ article.article.title }}
+        {% endfor %}
+        size : {{ app.session.get('panier_size') }}
+    </div>
+{% endblock %}

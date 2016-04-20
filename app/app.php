@@ -61,17 +61,20 @@ $app['dao.basket'] = $app->share(function ($app) {
 });
 
 $app['dao.game'] = $app->share(function ($app) {
-    return new GamyGoody\DAO\GameDAO($app['db']);
+    $gameDAO = new GamyGoody\DAO\GameDAO($app['db']);
+    $gameDAO -> setImageDAO($app['dao.image']);
+    return $gameDAO;
 });
 $app['dao.category'] = $app->share(function ($app) {
-    return new GamyGoody\DAO\CategoryDAO($app['db']);
+    $catDAO = new GamyGoody\DAO\CategoryDAO($app['db']);
+    //$catDAO -> setImageDAO($app['dao.image']);
+    return $catDAO;
 });
 // Register services
 $app['dao.article'] = $app->share(function ($app) {
     $articleDAO = new GamyGoody\DAO\ArticleDAO($app['db']);
     $articleDAO -> setImageDAO($app['dao.image']);
     $articleDAO -> setGameDAO($app['dao.game']);
-    $articleDAO -> setCategoryDAO($app['dao.category']);
     $articleDAO -> setArticleImageDAO($app['dao.article_image']);
     return $articleDAO;
 });
@@ -81,4 +84,11 @@ $app['dao.comment'] = $app->share(function ($app) {
     $commentDAO->setArticleDAO($app['dao.article']);
     $commentDAO->setUserDAO($app['dao.user']);
     return $commentDAO;
+});
+
+$app['dao.panier'] = $app->share(function ($app) {
+
+    $panierDAO = new GamyGoody\DAO\PanierDAO($app['session']);
+    $panierDAO->setArticleDAO($app['dao.article']);
+    return $panierDAO;
 });

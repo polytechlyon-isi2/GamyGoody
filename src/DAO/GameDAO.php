@@ -11,7 +11,12 @@ class GameDAO extends DAO
      *
      * @return array A list of all games.
      */
-    
+    private $imageDAO;
+
+    public function setImageDAO($imageDAO){
+        $this->imageDAO = $imageDAO;
+    }
+
     public function findAll() {
         $sql = "select * from game order by game_id desc";
         $result = $this->getDb()->fetchAll($sql);
@@ -70,8 +75,21 @@ class GameDAO extends DAO
         $game = new Game();
         $game->setId($row['game_id']);
         $game->setTitle($row['game_title']);
-        $game->setLogoByEx($row['game_logo_ex']);
-        $game->setBackgroundByEx($row['game_bg_ex']);
+
+        if (array_key_exists('game_logo_id', $row)) {
+            // Find and set the associated author
+            $imgId = $row['game_logo_id'];
+            $image = $this->imageDAO->find($imgId);
+            $game->setLogo($image);
+        }
+
+        if (array_key_exists('game_bg_id', $row)) {
+            // Find and set the associated author
+            $imgId = $row['game_bg_id'];
+            $image = $this->imageDAO->find($imgId);
+            $game->setBackground($image);
+        }
+
         return $game;
     }
 
@@ -101,24 +119,14 @@ class GameDAO extends DAO
         $logo = $game->getLogo();
         $bg = $game->getBackground();
 
-        if($logo->isValid() && $bg->isValid())
-        {
-            $logo_ex = $logo->guessExtension();
-            $bg_ex = $bg->guessExtension();
+        $this->imageDAO->save($logo);
+        $this->imageDAO->save($bg);
 
-            $gameData = array(
+        $gameData = array(
             'game_title' => $game->getTitle(),
-            'game_logo_ex' => $logo_ex,
-            'game_bg_ex' => $bg_ex
+            'game_logo_id' => $logo->getId(),
+            'game_bg_id' => $bg->getId()
             );
-        }
-        else
-        {
-            $gameData = array(
-            'game_title' => $game->getTitle()
-            );
-        }
-
 
         if ($game->getId()) {
             // The game has already been saved : update it
@@ -130,16 +138,6 @@ class GameDAO extends DAO
             $id = $this->getDb()->lastInsertId();
             $game->setId($id);
         }
-
-        $logo_name = 'logo_'.$game->getId().'.'.$logo_ex;
-        $bg_name = 'bg_'.$game->getId().'.'.$bg_ex;
-        $dir = $this->getAbsDir();
-
-        $logo->move($dir, $logo_name);
-        $bg->move($dir, $bg_name);
-
-        $game->setLogo($this->getDir().$logo_name);
-        $game->setBackground($this->getDir().$bg_name);
     }
 
     /**
@@ -149,6 +147,14 @@ class GameDAO extends DAO
      */
     public function delete($id) {
         // Delete the game
+        // 
+        $game = $this->find($id);
+        $logo = $game->getLogo();
+        $bg = $game->getBackground();
+
+        $this->imageDAO->deleteImage($logo);
+        $this->imageDAO->deleteImage($bg);
+
         $this->getDb()->delete('game', array('game_id' => $id));
     }
 

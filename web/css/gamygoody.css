@@ -203,3 +203,31 @@ body {
 {
     margin-top: 40px;
 }
+
+.galery-image
+{
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.galery-image .img-container
+{
+    margin: 0;
+}
+
+.galery-image img
+{
+    border: solid gray 1px;
+}
+
+.image_list img
+{
+    border: solid gray 1px;
+}
+
+.image_list img:hover
+{
+    border: solid gray 3px;
+    margin: -1px;
+}

@@ -7,14 +7,9 @@ use GamyGoody\Domain\Article;
 
 class ArticleDAO extends DAO
 {
-    private $categoryDAO;
     private $gameDAO;
     private $article_imageDAO;
     private $imageDAO;
-    
-    public function setCategoryDAO($categoryDAO){
-        $this->categoryDAO = $categoryDAO;
-    }
 
     public function setGameDAO($gameDAO){
         $this->gameDAO = $gameDAO;
@@ -84,17 +79,9 @@ class ArticleDAO extends DAO
         $article->setId($row['art_id']);
         $article->setTitle($row['art_title']);
         $article->setContent($row['art_content']);
-        $article->setCategory($row['cat_id']);
-        $article->setGame($row['game_id']);
+        $article->setGame($this->gameDAO->find($row['game_id']));
 
-        if (array_key_exists('img_id', $row)) {
-            // Find and set the associated author
-            $imgId = $row['img_id'];
-            $image = $this->getImageDAO()->find($imgId);
-            $article->setImage($image);
-        }
-
-       $article->setImages($this->getArticleImageDAO()->findAllByArticle($article->getId()));
+        $article->setImages($this->getArticleImageDAO()->findAllByArticle($article->getId()));
 
         return $article;
     }

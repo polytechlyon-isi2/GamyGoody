@@ -13,11 +13,9 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', 'text')
             ->add('content', 'textarea')
+            ->add('price', 'money')
             ->add('game', 'choice', array(
-            'choices' => $options['games']))
-            ->add('category', 'choice', array(
-            'choices' => $options['categories']))
-            ->add('image', new ImageType());
+            'choices' => $options['games']));
 
         $builder->add('images', 'collection', array(
             'type'         => new ArticleImageType(),

@@ -19,8 +19,9 @@ use GamyGoody\Form\Type\ArticleImageType;
 
 // Home page
 $app->get('/', "GamyGoody\Controller\HomeController::indexAction")->bind('home');
+
 // Shop page with all articles filtered by game, category, 
-$app->get('/shop/{game_id}/{category_id}', "GamyGoody\Controller\HomeController::shopAction")->value('game_id', '')->value('category_id', '')->bind('shop');
+$app->get('/shop/{game_id}', "GamyGoody\Controller\HomeController::shopAction")->value('game_id', '')->bind('shop');
 
 // Article details with comments
 $app->match('/article/{id}', "GamyGoody\Controller\HomeController::articleAction")->bind('article');
@@ -42,6 +43,10 @@ $app->get('/profil', "GamyGoody\Controller\HomeController::profilAction")->bind(
 // Edit profil
 $app->match('/profil/edit', "GamyGoody\Controller\HomeController::profileditAction")->bind('profil_edit');
 
+// panier
+$app->match('/panier', "GamyGoody\Controller\HomeController::panierAction")->bind('panier');
+
+$app->match('/panier/add', "GamyGoody\Controller\HomeController::addarticlepanierAction")->bind('add_article_to_basket');
 
 // Admin home page
 $app->get('/admin', function() use ($app) {

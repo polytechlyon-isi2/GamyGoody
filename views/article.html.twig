@@ -6,12 +6,12 @@
 
 {% block content %}
     <div class="col-sm-6">
-        <div class="responsive-container col-xs-12">
+        <div class="responsive-container col-xs-12 galery-image">
             <div class="ratio-1-1"></div>
             <div class="img-container img-container-full">
                 {% if article.images is not empty %}
-                    <img class="image_selected img-rounded img-responsive" src="{{ article.images.0.image.webPath }}" alt="{{ article.images.0.image.alt }}"/>
-                {% else %}
+                    <img class="image_selected img-responsive" src="{{ article.images.0.image.webPath }}" alt="{{ article.images.0.image.alt }}"/>
+                    {% else %}
                     <img src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}">
                 {% endif %}
             </div>
@@ -19,13 +19,16 @@
 
         <div class="row image_list">
             {% for articleimage in article.images %}
-                <div class="col-xs-4">
-                    <a href="#" class="image_listed">
-                        <img src="{{ articleimage.image.webPath }}" alt="{{ articleimage.image.alt }}" class="img-rounded img-responsive"/>
-                    </a>
+                <div class="responsive-container col-xs-4">
+                    <div class="ratio-1-1"></div>
+                    <div class="img-container img-container-full">
+                        <a href="#" class="image_listed">
+                            <img src="{{ articleimage.image.webPath }}" alt="{{ articleimage.image.alt }}" class="img-responsive"/>
+                        </a>
+                    </div>
                 </div>
             {% else %}
-                    No image.
+                No image.
             {% endfor %}
         </div>
     </div>
@@ -34,74 +37,76 @@
         <p>{{ article.content }}</p>
 
         {% set var = {'path_delete' : 'admin_comment_edit', 'path_edit' : 'admin_comment_delete', 'data_id' : article.id} %}
-        {% include 'edit_delete.html.twig' with {'var' : var} %}
+            {% include 'edit_delete.html.twig' with {'var' : var} %}
+            {% form_theme articleForm 'form_template.html.twig' %}
+            {{ form(articleForm) }}
     </div>
 
-    <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-            <ul class="nav nav-tabs nav-justified">
-                <li class="active"><a href="#desc" data-toggle="tab">Description</a></li>
-                <li><a href="#comments" data-toggle="tab">Comments</a></li>
-            </ul>
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#desc" data-toggle="tab">Description</a></li>
+                    <li><a href="#comments" data-toggle="tab">Comments</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="tab-content">
-        <div class="tab-pane fade in active" id="desc">
-            
-        </div>
-        <div class="tab-pane fade" id="comments">
-            {% for comment in comments %}
-                <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
-                {% else %}
-                No comments yet.
-            {% endfor %}
-            {% if commentForm %}
-                {{ form_start(commentForm) }}
-                <div class="form-group">
-                    {{ form_errors(commentForm.content) }}
-                    {{ form_widget(commentForm.content, { 'attr':  {
-                    'rows': '4',
-                    'class': 'form-control',
-                    'placeholder': 'Enter your comment'}}) }}
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Publish comment" />
-                </div>
-                {{ form_end(commentForm) }}
-                {% for flashMessage in app.session.flashbag.get('success') %}
-                    <div class="alert alert-success">
-                        {{ flashMessage }}
-                    </div>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="desc">
+                {{ article.content }}
+            </div>
+            <div class="tab-pane fade" id="comments">
+                {% for comment in comments %}
+                    <strong>{{ comment.author.username }}</strong> said : {{ comment.content }}<br>
+                    {% else %}
+                    No comments yet.
                 {% endfor %}
-                {% else %}
-                <a href="{{ path('login') }} ">Log in</a> to add comments.
-            {% endif %}
+                {% if commentForm %}
+                    {{ form_start(commentForm) }}
+                    <div class="form-group">
+                        {{ form_errors(commentForm.content) }}
+                        {{ form_widget(commentForm.content, { 'attr':  {
+                        'rows': '4',
+                        'class': 'form-control',
+                        'placeholder': 'Enter your comment'}}) }}
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Publish comment" />
+                    </div>
+                    {{ form_end(commentForm) }}
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                    <a href="{{ path('login') }} ">Log in</a> to add comments.
+                {% endif %}
+            </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
 
-{% block script %}
-    <script>
-        var $image_selected;
+    {% block script %}
+        <script>
+            var $image_selected;
 
-        $(document).ready(function(){
-            $('[data-toggle="popover"]').popover({ trigger: "hover" });   
-            $('[data-toggle="tooltip"]').tooltip();   
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover({ trigger: "hover" });   
+                $('[data-toggle="tooltip"]').tooltip();   
 
-            $image_selected = $('.image_selected');
+                $image_selected = $('.image_selected');
 
-            $('.image_listed').on('click', function(e) {
+                $('.image_listed').on('click', function(e) {
                 // prevent the link from creating a "#" on the URL
                 e.preventDefault();
                 // add a new tag form (see next code block)
                 setImageSelected($(this));
             });
 
-            function setImageSelected($image) 
-            {
-                var url = $('img', $image).attr("src");
-                $image_selected.attr("src", url);
-            }
-        });
-    </script>
-{% endblock %}
+                function setImageSelected($image) 
+                {
+                    var url = $('img', $image).attr("src");
+                    $image_selected.attr("src", url);
+                }
+            });
+        </script>
+    {% endblock %}
