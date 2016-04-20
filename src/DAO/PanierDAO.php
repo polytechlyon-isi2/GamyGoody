@@ -22,6 +22,11 @@ class PanierDAO
 
     public function buildAll()
     {
+        if(!$this->session->has('panier'))
+        {
+            $this->session->set('panier', []);
+            $this->session->set('panier_size', 0);
+        }
         $panier_ar = $this->session->get('panier');
         $panier = [];
         foreach ($panier_ar as $key => $value) {

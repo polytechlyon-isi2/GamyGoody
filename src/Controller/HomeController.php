@@ -181,8 +181,8 @@ class HomeController {
      return $app->redirect($app['url_generator']->generate('panier'));
  } 
 
- public function panierAction(Application $app)
-     {
+    public function panierAction(Application $app)
+    {
         $articles = $app['dao.panier']->buildAll();
         return $app['twig']->render('panier.html.twig', array('articles' => $articles));
     }

@@ -1,16 +1,51 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}
-    Home
+{% block title %}Panier
 {% endblock %}
 
 
+
 {% block content %}
-    <div class="row">
-        {% for article in articles %}
-            {{ article.quantity }}
-            {{ article.article.title }}
-        {% endfor %}
-        size : {{ app.session.get('panier_size') }}
-    </div>
+    <h2 class="text-center">{{ block('title') }}</h2>
+    {% if articles is empty %}
+        <div class="alert alert-warning">
+            <strong>Panier vide</strong>
+        </div>
+    {% else %}
+        <div class="well">
+            <div class="table-responsive">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Article</th>
+                        <th>Prix unitaire</th>
+                        <th>Quantity</th>
+                        <th>Prix</th>
+                        <th></th>  <!-- Actions column -->
+                    </tr>
+                </thead>
+                {% set total = 0 %}
+                {% for article in articles %}
+                <tr>
+                    <td><a class="artcleTitle" href="{{ path('article', { 'id': article.article.id }) }}">{{ article.article.title }}</a></td>
+                    {% set price = article.article.price %}
+                    {% set qty = article.quantity %}
+                    {% set tt = price*qty %}
+                    {% set total = total + tt %}
+                    <td>{{ price }} €</td>
+                    <td>{{ qty }}</td>
+                    <td>{{ tt }} €</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ total }} €</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}

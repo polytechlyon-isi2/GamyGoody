@@ -51,7 +51,6 @@ $app->match('/panier/add', "GamyGoody\Controller\HomeController::addarticlepanie
 // Admin home page
 $app->get('/admin', function() use ($app) {
     $articles = $app['dao.article']->findAll();
-    $categories = $app['dao.category']->findAll();
     $comments = $app['dao.comment']->findAll();
     $users = $app['dao.user']->findAll();
     $games = $app['dao.game']->findAll();
@@ -59,8 +58,7 @@ $app->get('/admin', function() use ($app) {
         'articles' => $articles,
         'comments' => $comments,
         'games' => $games,
-        'users'    => $users,
-        'categories' => $categories));
+        'users'    => $users,));
 })->bind('admin');
 
 // Basket home page
@@ -73,9 +71,8 @@ $app->get('/basket', function () use ($app) {
 $app->match('/admin/article/add', function(Request $request) use ($app) {
     $article = new Article();
     $article->setImages([new ArticleImage()]);
-    $games = $app['dao.game'] ->findAllTitles();
-    $categories = $app['dao.category'] ->findAllTitles();
-    $articleForm = $app['form.factory']->create(new ArticleType(), $article, array('games' => $games, 'categories' => $categories));
+    $games = $app['dao.game'] ->findAll();
+    $articleForm = $app['form.factory']->create(new ArticleType(), $article, array('games' => $games));
     $articleForm->handleRequest($request);
     if ($articleForm->isSubmitted() && $articleForm->isValid()) {
         $app['dao.article']->save($article);
@@ -89,9 +86,8 @@ $app->match('/admin/article/add', function(Request $request) use ($app) {
 // Edit an existing article
 $app->match('/admin/article/{id}/edit', function($id, Request $request) use ($app) {
     $article = $app['dao.article']->find($id);
-    $games = $app['dao.game'] ->findAllTitles();
-    $categories = $app['dao.category'] ->findAllTitles();
-    $articleForm = $app['form.factory']->create(new ArticleType(), $article, array('games' => $games, 'categories' => $categories));
+    $games = $app['dao.game'] ->findAll();
+    $articleForm = $app['form.factory']->create(new ArticleType(), $article, array('games' => $games));
     $articleForm->handleRequest($request);
     if ($articleForm->isSubmitted() && $articleForm->isValid()) {
         $app['dao.article']->save($article);

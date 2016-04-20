@@ -79,6 +79,7 @@ class ArticleDAO extends DAO
         $article->setId($row['art_id']);
         $article->setTitle($row['art_title']);
         $article->setContent($row['art_content']);
+        $article->setPrice($row['art_price']);
         $article->setGame($this->gameDAO->find($row['game_id']));
 
         $article->setImages($this->getArticleImageDAO()->findAllByArticle($article->getId()));
@@ -102,14 +103,12 @@ class ArticleDAO extends DAO
      * @param \MicroCMS\Domain\Article $article The article to save
      */
     public function save(Article $article) {
-        $this->getImageDAO() -> save($article -> getImage());
 
         $articleData = array(
             'art_title' => $article->getTitle(),
             'art_content' => $article->getContent(),
-            'cat_id' => $article -> getCategory(),
-            'game_id' => $article -> getGame(),
-            'img_id' => $article -> getImage() -> getId(),
+            'art_price' => $article->getPrice(),
+            'game_id' => $article -> getGame()->getId(),
             );
 
         if ($article->getId()) {

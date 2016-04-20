@@ -17,7 +17,7 @@ class Article
      * @var string
      */
     private $title;
-    private $gameid;
+    private $game;
     private $images;
     private $price;
     /**
@@ -56,18 +56,18 @@ class Article
     }
     
     public function getGame(){
-        return $this->gameid;
+        return $this->game;
     }
     
-    public function setGame($id){
-        $this->gameid = $id;
+    public function setGame($game){
+        $this->game = $game;
     }
 
     public function getPrice(){
         return $this->price;
     }
     
-    public function setPrice(Image $price){
+    public function setPrice($price){
         $this->price = $price;
     }
 
