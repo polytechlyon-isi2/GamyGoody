@@ -1,0 +1,60 @@
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ path('home') }}">GamyGoody</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Games <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                {% for game in games %}
+                    <li><a href="{{ path('shop', { 'game_id': game.id }) }}">{{ game.title }}</a></li>
+                {% endfor %}
+                <li role="separator" class="divider"></li>
+                <li><a href="{{ path('shop')}}">All</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if app.user and is_granted('ROLE_ADMIN') %}
+                        <li class="{% if adminMenu is defined %}active{% endif %}"><a href="{{ path('admin') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
+                    {% endif %}
+                    {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li><a href="{{ path('panier') }}"><span class="glyphicon glyphicon-shopping-cart"></span> {{ app.session.get('panier_size') }} - Basket </a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user"></span> Welcome, {{ app.user.username }} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('profil') }}">Profil</a></li>
+                                <li><a href="{{ path('logout') }}">Log out</a></li>
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user"></span> Not connected <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('login') }}">Log in</a></li>
+                                <li><a href="{{ path('register') }}">Register</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+</div>
+

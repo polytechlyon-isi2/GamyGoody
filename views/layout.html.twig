@@ -7,57 +7,23 @@
     <link href="{{ app.request.basepath }}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ app.request.basepath }}/css/gamygoody.css" rel="stylesheet">
     <style type="text/css"> 
-        {% block style %}{% endblock %}
+    {% block style %}{% endblock %}
     </style>
     <title>MicroCMS - {% block title %}{% endblock %}</title>
 </head>
 <body>
+    {{ render(url('navbar')) }}
+    <div id="header">
+        {% block header %}
+        {% endblock %}
+    </div>
     <div class="container">
-        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" datatoggle="collapse" data-target="#navbar-collapse-target">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('home') }}">GamyGoody</a>
-                </div>
-                <div class="collapse navbar-collapse" id="navbar-collapse-target">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if app.user and is_granted('ROLE_ADMIN') %}
-                        <li class="{% if adminMenu is defined %}active{% endif %}"><a href="{{ path('admin') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
-                        {% endif %}
-                        {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li><a href="{{ path('panier') }}"><span class="glyphicon glyphicon-shopping-cart"></span> {{ app.session.get('panier_size') }} - Basket </a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> Welcome, {{ app.user.username }} <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path('profil') }}">Profil</a></li>
-                                <li><a href="{{ path('logout') }}">Log out</a></li>
-                            </ul>
-                        </li>
-                        {% else %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> Not connected <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path('login') }}">Log in</a></li>
-                                <li><a href="{{ path('register') }}">Register</a></li>
-                            </ul>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div><!-- /.container -->
-        </nav>
-        </div><div id="header">{% block header %}{% endblock %}</div><div class="container">
-        <div id="content">{% block content %}{% endblock %}</div>
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
         <footer class="footer col-xs-12">
-            <a href="https://github.com/bpesquet/OC-MicroCMS">GamyGoody</a> is created by a well player and a little furious.
+            <a href="#">GamyGoody</a> is created by a well player and a little furious.
         </footer>
     </div>
 

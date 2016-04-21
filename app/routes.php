@@ -17,6 +17,9 @@ use GamyGoody\Form\Type\UserRegisterType;
 use GamyGoody\Form\Type\UserProfilType;
 use GamyGoody\Form\Type\ArticleImageType;
 
+//navbar
+$app->get('render/navbar', "GamyGoody\Controller\RenderController::navbarAction")->bind('navbar');
+
 // Home page
 $app->get('/', "GamyGoody\Controller\HomeController::indexAction")->bind('home');
 

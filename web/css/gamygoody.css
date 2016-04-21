@@ -46,7 +46,6 @@ body {
     text-align:center; /* Align center inline elements */
     font: 0/0 a;
     margin: 20px;
-    background-color: #C90000;
     overflow: hidden;
 }
 
@@ -59,7 +58,7 @@ body {
 
 [class*="background-game-"]:hover
 {
-        background-size: 110% 110%;
+    background-size: 110% 110%;
 }
 
 .img-container h1
@@ -67,10 +66,6 @@ body {
     text-decoration: none;
     color: white;
     font-size: 20px;
-}
-
-.img-container:hover {
-    background-color: #00C6FF;
 }
 
 .img-container:before {
@@ -230,4 +225,14 @@ body {
 {
     border: solid gray 3px;
     margin: -1px;
+}
+
+.article
+{
+    border: solid gray 1px;
+}
+
+.img_hover_hidden
+{
+    display: none !important;
 }
