@@ -28,10 +28,13 @@
     </div>
     <div class="col-sm-6">
         <h2>{{ article.title }}</h2>
-        <p>{{ article.content }}</p>
-
+        <p>Game : {{ article.game.title }}</p>
+        <p>Price : {{ article.price }} €</p>
+        <hr>
         {% form_theme articleForm 'form_template.html.twig' %}
         {{ form(articleForm) }}
+        <hr>
+        <a href="{{ path('article', { 'id': article.id }) }}" class="btn btn-block btn-info"><span class="glyphicon glyphicon-info-sign"></span> More Info</a>
     </div>
 </div>
 <script>
