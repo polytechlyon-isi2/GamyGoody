@@ -52,7 +52,7 @@
                     <a class="img_art_cont" href="{{ path('article', { 'id': article.id }) }}">
                         {% if article.images | length >= 2 %}
                             <img class="article img_hover_1" src="{{ article.images.0.image.webPath }}" alt="{{ article.images.0.image.alt }}"/>
-                            <img class="article img_hover_2 img_hover_hidden" src="{{ article.images.1.image.webPath }}" alt="{{ article.images.1.image.alt }}"/>
+                            <img class="article img_hover_2" src="{{ article.images.1.image.webPath }}" alt="{{ article.images.1.image.alt }}"/>
                         {% else %}
                             <img class='article' src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}">
                         {% endif %}
@@ -118,13 +118,17 @@
 
             $('.img_art_cont').hover(function()
             {
-                $(this).find('.img_hover_1').addClass('img_hover_hidden');
-                $(this).find('.img_hover_2').removeClass('img_hover_hidden');
+                $(this).find('.img_hover_1').fadeOut("fast");
+                $(this).find('.img_hover_2').fadeIn();
+                //$(this).find('.img_hover_1').addClass('img_hover_hidden');
+                //$(this).find('.img_hover_2').removeClass('img_hover_hidden');
             },
             function()
             {
-                $(this).find('.img_hover_2').addClass('img_hover_hidden');
-                $(this).find('.img_hover_1').removeClass('img_hover_hidden');
+                $(this).find('.img_hover_2').fadeOut("fast");
+                $(this).find('.img_hover_1').fadeIn();
+                //$(this).find('.img_hover_2').addClass('img_hover_hidden');
+                //$(this).find('.img_hover_1').removeClass('img_hover_hidden');
             }
             );
 
