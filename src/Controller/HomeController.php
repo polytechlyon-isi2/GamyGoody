@@ -155,35 +155,4 @@ class HomeController {
             'title' => 'Edit profil',
             'userForm' => $userForm->createView()));
     }
-
-    public function addarticlepanierAction(Request $request, Application $app)
-    {
-        $articlepanier = new ArticlePanier();
-        $user = $app['user'];
-        $articleForm = $app['form.factory']->create(new ArticlePanierType(), $articlepanier, ['action' =>  $app['url_generator']->generate('add_article_to_basket')]);
-        $articleForm->handleRequest($request);
-        if ($articleForm->isSubmitted() && $articleForm->isValid()) 
-        {
-         if(!$app['session']->has('panier'))
-         {
-            $app['session']->set('panier', array($articlepanier->getArticle() => $articlepanier->getQuantity()));
-         }
-         else
-         {
-            $panier = $app['session']->get('panier');
-            $panier[$articlepanier->getArticle()] = $articlepanier->getQuantity();
-            $app['session']->set('panier', $panier);
-         }
-
-         $app['session']->set('panier_size', sizeof($app['session']->get('panier')));
-     }
-
-     return $app->redirect($app['url_generator']->generate('panier'));
- } 
-
-    public function panierAction(Application $app)
-    {
-        $articles = $app['dao.panier']->buildAll();
-        return $app['twig']->render('panier.html.twig', array('articles' => $articles));
-    }
 }

@@ -22,7 +22,7 @@
                     <li><a href="{{ path('shop', { 'game_id': game.id }) }}">{{ game.title }}</a></li>
                 {% endfor %}
                 <li role="separator" class="divider"></li>
-                <li><a href="{{ path('shop')}}">All</a></li>
+                <li><a href="{{ path('shop')}}"><span class="glyphicon glyphicon-th"></span> All</a></li>
               </ul>
             </li>
           </ul>
@@ -30,15 +30,24 @@
             {% if app.user and is_granted('ROLE_ADMIN') %}
                         <li class="{% if adminMenu is defined %}active{% endif %}"><a href="{{ path('admin') }}"><span class="glyphicon glyphicon-cog"></span> Administration</a></li>
                     {% endif %}
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> {{ app.session.get('panier_size') }} - Basket <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('panier') }}"><span class="glyphicon glyphicon-circle-arrow-right"></span> Voir - {{ app.session.get('panier_size') }} article(s)</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#trashDialog"><span class="glyphicon glyphicon-trash"></span> Vider</a>
+                                </li>
+                            </ul>
+                    </li>
                     {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li><a href="{{ path('panier') }}"><span class="glyphicon glyphicon-shopping-cart"></span> {{ app.session.get('panier_size') }} - Basket </a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user"></span> Welcome, {{ app.user.username }} <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ path('profil') }}">Profil</a></li>
-                                <li><a href="{{ path('logout') }}">Log out</a></li>
+                                <li><a href="{{ path('profil') }}"><span class="glyphicon glyphicon-user"></span> Profil</a></li>
+                                <li><a href="{{ path('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
                             </ul>
                         </li>
                         {% else %}
@@ -47,8 +56,8 @@
                                 <span class="glyphicon glyphicon-user"></span> Not connected <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ path('login') }}">Log in</a></li>
-                                <li><a href="{{ path('register') }}">Register</a></li>
+                                <li><a href="{{ path('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+                                <li><a href="{{ path('register') }}"><span class="glyphicon glyphicon-pencil"></span> Register</a></li>
                             </ul>
                         </li>
                     {% endif %}
@@ -56,5 +65,22 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+    <div class="modal fade" id="trashDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Do you really want to delete all your basket ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <a href="{{ path('trash') }}" class="btn btn-danger">Confirm</a>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
 </div>
 

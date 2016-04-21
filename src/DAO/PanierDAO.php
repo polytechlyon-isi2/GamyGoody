@@ -51,4 +51,35 @@ class PanierDAO
         }
         return $panier;
     }
+
+    public function getSize()
+    {
+        if(!$this->session->has('panier_size'))
+        {
+            $this->session->set('panier_size', 0);
+        }
+        return $this->session->get('panier_size');
+    }
+
+    public function clear()
+    {
+        $this->session->set('panier', []);
+        $this->session->set('panier_size', 0);
+    }
+
+    public function addArticle(ArticlePanier $articlepanier)
+    {
+        if(!$this->session->has('panier'))
+        {
+            $this->session->set('panier', array($articlepanier->getArticle() => $articlepanier->getQuantity()));
+        }
+        else
+        {
+            $panier = $this->session->get('panier');
+            $panier[$articlepanier->getArticle()] = $articlepanier->getQuantity();
+            $this->session->set('panier', $panier);
+        }
+
+        $this->session->set('panier_size', sizeof($this->session->get('panier')));
+    }
 }

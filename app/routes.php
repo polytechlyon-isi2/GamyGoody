@@ -47,9 +47,11 @@ $app->get('/profil', "GamyGoody\Controller\HomeController::profilAction")->bind(
 $app->match('/profil/edit', "GamyGoody\Controller\HomeController::profileditAction")->bind('profil_edit');
 
 // panier
-$app->match('/panier', "GamyGoody\Controller\HomeController::panierAction")->bind('panier');
+$app->match('/panier', "GamyGoody\Controller\PanierController::panierAction")->bind('panier');
 
-$app->match('/panier/add', "GamyGoody\Controller\HomeController::addarticlepanierAction")->bind('add_article_to_basket');
+$app->match('/panier/add', "GamyGoody\Controller\PanierController::addarticlepanierAction")->bind('add_article_to_basket');
+
+$app->match('/panier/trash', "GamyGoody\Controller\PanierController::trashAction")->bind('trash');
 
 // Admin home page
 $app->get('/admin', function() use ($app) {
