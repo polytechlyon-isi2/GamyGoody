@@ -53,8 +53,12 @@
                         {% if article.images | length >= 2 %}
                             <img class="article img_hover_1" src="{{ article.images.0.image.webPath }}" alt="{{ article.images.0.image.alt }}"/>
                             <img class="article img_hover_2" src="{{ article.images.1.image.webPath }}" alt="{{ article.images.1.image.alt }}"/>
+                        {% elseif article.images | length == 1 %}
+                            <img class="article img_hover_1" src="{{ article.images.0.image.webPath }}" alt="{{ article.images.0.image.alt }}"/>
+                            <img class="article img_hover_2" src="{{ app.request.basepath }}/images/bag.png" alt="bag"/>
                         {% else %}
-                            <img class='article' src="https://upload.wikimedia.org/wikipedia/fr/7/77/League_of_Legends_logo.png" alt="{{article.title}}">
+                            <img class="article img_hover_1" src="{{ app.request.basepath }}/images/commerce.png" alt="article"/>
+                            <img class="article img_hover_2" src="{{ app.request.basepath }}/images/bag.png" alt="bag"/>
                         {% endif %}
                     </a>
                     <a href="#" class="modal-article-link" data-href="{{ article.id }}">
