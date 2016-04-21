@@ -35,11 +35,9 @@
     <div class="col-sm-6">
         <h2>{{ article.title }}</h2>
         <p>Game : {{ article.game.title }}</p>
-
-        {% set var = {'path_delete' : 'admin_comment_edit', 'path_edit' : 'admin_comment_delete', 'data_id' : article.id} %}
-            {% include 'edit_delete.html.twig' with {'var' : var} %}
-            {% form_theme articleForm 'form_template.html.twig' %}
-            {{ form(articleForm) }}
+        
+        {% form_theme articleForm 'form_template.html.twig' %}
+        {{ form(articleForm) }}
     </div>
 
         <div class="row">
