@@ -37,6 +37,7 @@ create table user (
   user_surname varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   user_firstname varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   user_mail varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  user_address varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   user_city varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   user_password varchar(88) COLLATE utf8_unicode_ci NOT NULL,
   user_salt varchar(23) COLLATE utf8_unicode_ci NOT NULL,
